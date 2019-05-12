@@ -6,4 +6,5 @@ api = Api(app)
 
 import models, resources
 
+api.add_resource(resources.Login, '/login')
 api.add_resource(resources.PersonalDetail, '/myinfo/personaldetail')

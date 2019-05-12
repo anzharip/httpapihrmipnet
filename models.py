@@ -1,5 +1,35 @@
 import db
+import bcrypt
 
+class User:
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
+
+    def login(self):
+        field = "`emp_number`, `user_name`, `user_password`"
+        table = "`ohrm_user`"
+        sql_filter = "`user_name` = '%s'" % self.username
+        statement = "SELECT %s FROM %s WHERE %s LIMIT 0,1" % (
+            field, table, sql_filter)
+        connection = db.open_connection()
+        cursor = db.sql_cursor(connection, statement)
+        result = cursor.fetchone()
+        db.close_connection(connection, cursor)
+        if result is None:
+            return {
+                "message": "User not found"
+            }
+        bytes_password = bytes(self.password, "utf-8")
+        bytes_hashed = bytes(result[2], "utf-8")
+        if bcrypt.checkpw(bytes_password, bytes_hashed):
+            return {
+                "message": "User & Password match"
+            }
+        else:
+            return {
+                "message": "User or Password is wrong"
+            }
 
 class PersonalDetail:
     def __init__(self, employee_id):
@@ -33,5 +63,21 @@ class PersonalDetail:
             "date_of_birth": result[0][14].isoformat(),
             "religion": result[0][15],
             "place_of_birth": result[0][16]
+        }
+        return result
+
+    def put(self, body):
+        table = "`hs_hr_employee` AS A JOIN `ohrm_employee_work_shift` AS B ON A.`emp_number` = B.`emp_number`"
+        field = "A.`emp_firstname`='%s', A.`emp_middle_name`='%s', A.`emp_lastname`='%s', A.`emp_other_id`='%s', A.`emp_dri_lice_exp_date`='%s', A.`emp_bpjs_no`='%s', A.`emp_npwp_no`='%s', A.`emp_bpjs_ket_no`='%s', B.`work_shift_id`='%s', A.`emp_gender`='%s', A.`emp_marital_status`='%s', A.`nation_code`='%s', A.`emp_religion`='%s', A.`emp_birth_place`='%s'" % (
+            body["first_name"], body["middle_name"], body["last_name"], body["no_ktp"], body["license_expiry_date"], body["no_bpjs_kesehatan"], body["no_npwp"], body["no_bpjs_ketenagakerjaan"], body["work_shift"], body["gender"], body["marital_status"], body["nationality"], body["religion"], body["place_of_birth"])
+        sql_filter = "`employee_id` = '%s'" % (self.employee_id)
+        statement = "UPDATE %s SET %s WHERE %s " % (
+            table, field, sql_filter)
+        connection = db.open_connection()
+        cursor = db.sql_cursor(connection, statement)
+        connection.commit()
+        db.close_connection(cursor, connection)
+        result = {
+            "message": "Personal detail succesfully updated"
         }
         return result
