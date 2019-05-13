@@ -51,26 +51,26 @@ class PersonalDetail:
             field, table, sql_filter)
         connection = db.open_connection()
         cursor = db.sql_cursor(connection, statement)
-        result = cursor.fetchall()
+        result = cursor.fetchone()
         db.close_connection(connection, cursor)
         result = {
-            "first_name": result[0][0],
-            "middle_name": result[0][1],
-            "last_name": result[0][2],
-            "employee_id": result[0][3],
-            "no_ktp": result[0][4],
-            "drivers_license_number": result[0][5],
-            "license_expiry_date": result[0][6].isoformat(),
-            "no_bpjs_kesehatan": result[0][7],
-            "no_npwp": result[0][8],
-            "no_bpjs_ketenagakerjaan": result[0][9],
-            "work_shift": result[0][10],
-            "gender": result[0][11],
-            "marital_status": result[0][12],
-            "nationality": result[0][13],
-            "date_of_birth": result[0][14].isoformat(),
-            "religion": result[0][15],
-            "place_of_birth": result[0][16]
+            "first_name": result[0],
+            "middle_name": result[1],
+            "last_name": result[2],
+            "employee_id": result[3],
+            "no_ktp": result[4],
+            "drivers_license_number": result[5],
+            "license_expiry_date": result[6].isoformat(),
+            "no_bpjs_kesehatan": result[7],
+            "no_npwp": result[8],
+            "no_bpjs_ketenagakerjaan": result[9],
+            "work_shift": result[10],
+            "gender": result[11],
+            "marital_status": result[12],
+            "nationality": result[13],
+            "date_of_birth": result[14].isoformat(),
+            "religion": result[15],
+            "place_of_birth": result[16]
         }
         return result
 
@@ -97,7 +97,7 @@ class Attachment:
         self.screen = screen
 
     def get_meta_all(self):
-        field = "`emp_number`,`eattach_id`,`eattach_desc`,`eattach_filename`, `eattach_size`,`eattach_type`,`screen`,`attached_by`,`attached_by_name`,`attached_time`"
+        field = "`emp_number`,`eattach_id`,`eattach_desc`,`eattach_filename`, `eattach_size`,`eattach_type`,`screen`,`attached_by`,`attached_by_name`, DATE_FORMAT(`attached_time`, '%Y-%m-%dT%T') AS `attached_time`"
         table = "`hs_hr_emp_attachment`"
         sql_filter = "`emp_number`='%s' AND `screen`='%s'" % (
             self.emp_number, self.screen)
@@ -110,7 +110,7 @@ class Attachment:
         return result
 
     def get_meta(self, file_id):
-        field = "`emp_number`,`eattach_id`,`eattach_desc`, `eattach_filename`, `eattach_size`, `eattach_type`,`screen`,`attached_by`,`attached_by_name`,`attached_time`"
+        field = "`emp_number`,`eattach_id`,`eattach_desc`, `eattach_filename`, `eattach_size`, `eattach_type`,`screen`,`attached_by`,`attached_by_name`, DATE_FORMAT(`attached_time`, '%Y-%m-%dT%T') AS `attached_time`"
         table = "`hs_hr_emp_attachment`"
         sql_filter = "`emp_number`='%s' AND `screen`='%s' AND `eattach_id` = '%s'" % (
             self.emp_number, self.screen, file_id)
@@ -123,7 +123,7 @@ class Attachment:
         return result
 
     def get(self, file_id):
-        field = "`emp_number`,`eattach_id`,`eattach_desc`, `eattach_filename`, `eattach_size`, `eattach_attachment`, `eattach_type`,`screen`,`attached_by`,`attached_by_name`,`attached_time`"
+        field = "`emp_number`,`eattach_id`,`eattach_desc`, `eattach_filename`, `eattach_size`, `eattach_attachment`, `eattach_type`,`screen`,`attached_by`,`attached_by_name`, DATE_FORMAT(`attached_time`, '%Y-%m-%dT%T') AS `attached_time`"
         table = "`hs_hr_emp_attachment`"
         sql_filter = "`emp_number`='%s' AND `screen`='%s' AND `eattach_id` = '%s'" % (
             self.emp_number, self.screen, file_id)
@@ -135,22 +135,19 @@ class Attachment:
         db.close_connection(connection, cursor)
         return result
 
-    def put_comment(self, file_id, body):
+    def put_comment(self, body):
         field = "`eattach_desc` = '%s'" % body['comment']
         table = "`hs_hr_emp_attachment`"
         sql_filter = "`emp_number`='%s' AND `screen`='%s' AND `eattach_id` = '%s'" % (
-            self.emp_number, self.screen, file_id)
+            self.emp_number, self.screen, body['file_id'])
         statement = "UPDATE %s SET %s WHERE %s" % (
             table, field, sql_filter)
         connection = db.open_connection()
         cursor = db.sql_cursor(connection, statement)
+        # print(cursor.rowcount)
         connection.commit()
         db.close_connection(connection, cursor)
-        result = {
-            "file_id": file_id,
-            "message": "Comment succesfully updated"
-        }
-        return result
+        return cursor.rowcount
 
     def post(self, body):
         emp_number = self.emp_number
@@ -158,8 +155,8 @@ class Attachment:
         eattach_desc = body['comment']
         eattach_filename = body['file_name']
         eattach_attachment = b64decode(body["select_file"]).hex()
-        eattach_size = (len(body["select_file"]) * 3/4) - \
-            body["select_file"].count("=", -2)
+        eattach_size = int((len(body["select_file"]) * 3/4) -
+                           body["select_file"].count("=", -2))
         eattach_size = str(eattach_size)
         eattach_type = guess_type(eattach_filename)[0]
         screen = self.screen
@@ -180,10 +177,19 @@ class Attachment:
             "file_name": eattach_filename,
             "size": eattach_size,
             "type": eattach_type,
-            "date_added": None,
+            "date_added": self.get_meta(eattach_id)[9],
             "message": "File succesfully created"
         }
         return result
 
     def delete(self, file_id):
-        return {}
+        table = "`hs_hr_emp_attachment`"
+        sql_filter = "`emp_number` = %s AND `eattach_id` = %s" % (
+            self.emp_number, file_id)
+        statement = "DELETE FROM %s WHERE %s" % (
+            table, sql_filter)
+        connection = db.open_connection()
+        cursor = db.sql_cursor(connection, statement)
+        connection.commit()
+        db.close_connection(connection, cursor)
+        return cursor.rowcount

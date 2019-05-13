@@ -7,7 +7,7 @@ def open_connection():
 def sql_cursor(connection, statement):
     cursor = connection.cursor()
     sql = statement
-    cursor.execute(sql)
+    cursor = cursor.execute(sql)
     return cursor
 
 def close_connection(cursor, connection):

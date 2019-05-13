@@ -2,6 +2,7 @@ from flask_restful import Resource, reqparse
 from flask_jwt_extended import (create_access_token, create_refresh_token,
                                 jwt_required, jwt_refresh_token_required, get_jwt_identity, get_raw_jwt)
 import models
+from base64 import b64encode
 
 
 class Login(Resource):
@@ -80,6 +81,108 @@ class PersonalDetail(Resource):
         personal_detail = models.PersonalDetail(emp_number)
         return personal_detail.put(data)
 
+
+class PersonalDetailAttachment(Resource):
+    @jwt_required
+    def get(self):
+        emp_number = get_raw_jwt()['identity']
+        # emp_number = "3347"
+        screen = "personal"
+        attachment = models.Attachment(emp_number, screen)
+        parser = reqparse.RequestParser()
+        parser.add_argument(
+            'file_id', help='This field cannot be blank', required=True)
+        data = parser.parse_args()
+        if data["file_id"] == "all":
+            result = []
+            for attachment in attachment.get_meta_all():
+                result.append(
+                    {
+                        "file_id": attachment[1],
+                        "comment": attachment[2],
+                        "file_name": attachment[3],
+                        "size": attachment[4],
+                        "type": attachment[5],
+                        "date_added": attachment[9],
+                        "message": "File succesfully retrieved"
+                    }
+                )
+            return result
+        else:
+            result = attachment.get(data["file_id"])
+            if result is None:
+                return {
+                    "message": "File not found"
+                }
+            else:
+                return {
+                    "file_id": result[1],
+                    "file": b64encode(result[5]).decode(),
+                    "comment": result[2],
+                    "file_name": result[3],
+                    "size": result[4],
+                    "type": result[6],
+                    "date_added": result[10],
+                    "message": "File succesfully retrieved"
+                }
+
+    @jwt_required
+    def post(self):
+        emp_number = get_raw_jwt()['identity']
+        screen = "personal"
+        parser = reqparse.RequestParser()
+        parser.add_argument(
+            'select_file', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'file_name', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'comment', help='This field cannot be blank', required=True)
+        data = parser.parse_args()
+        attachment = models.Attachment(emp_number, screen)
+        return attachment.post(data)
+
+    @jwt_required
+    def put(self):
+        emp_number = get_raw_jwt()['identity']
+        screen = "personal"
+        parser = reqparse.RequestParser()
+        parser.add_argument(
+            'file_id', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'comment', help='This field cannot be blank', required=True)
+        data = parser.parse_args()
+        attachment = models.Attachment(emp_number, screen)
+        if attachment.put_comment(data) == 0:
+            return {
+                "message": "Comment not updated or no file_id found"
+            }
+        else:
+            result = {
+                "file_id": data['file_id'],
+                "comment": data['comment'],
+                "message": "Comment succesfully updated"
+            }
+            return result
+
+    @jwt_required
+    def delete(self):
+        emp_number = get_raw_jwt()['identity']
+        screen = "personal"
+        parser = reqparse.RequestParser()
+        parser.add_argument(
+            'file_id', help='This field cannot be blank', required=True)
+        data = parser.parse_args()
+        attachment = models.Attachment(emp_number, screen)
+        if attachment.delete(data['file_id']) == 0:
+            return {
+                "message": "No file_id found"
+            }
+        else:
+            result = {
+                "file_id": data['file_id'],
+                "message": "File succesfully deleted"
+            }
+            return result
 
 class SecretResource(Resource):
     @jwt_required
