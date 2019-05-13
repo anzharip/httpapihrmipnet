@@ -37,10 +37,12 @@ class PersonalDetail(Resource):
     def get(self):
         # data = parser.parse_args()
         # temporary for testing, on prod remove this
-        employee_id = "7187"
-        personal_detail = models.PersonalDetail(employee_id)
+        emp_number = get_raw_jwt()['identity']
+        # employee_id = "7187"
+        personal_detail = models.PersonalDetail(emp_number)
         return personal_detail.get()
 
+    @jwt_required
     def put(self):
         parser = reqparse.RequestParser()
         parser.add_argument(
@@ -73,9 +75,11 @@ class PersonalDetail(Resource):
             'place_of_birth', help='This field cannot be blank', required=True)
         data = parser.parse_args()
         # print(data)
-        employee_id = "7187"
-        personal_detail = models.PersonalDetail(employee_id)
+        # employee_id = "7187"
+        emp_number = get_raw_jwt()['identity']
+        personal_detail = models.PersonalDetail(emp_number)
         return personal_detail.put(data)
+
 
 class SecretResource(Resource):
     @jwt_required
