@@ -1,5 +1,8 @@
 from flask_restful import Resource, reqparse
+from flask_jwt_extended import (create_access_token, create_refresh_token,
+                                jwt_required, jwt_refresh_token_required, get_jwt_identity, get_raw_jwt)
 import models
+
 
 class Login(Resource):
     def post(self):
@@ -10,9 +13,27 @@ class Login(Resource):
             'password', help='This field cannot be blank', required=True)
         data = parser.parse_args()
         user = models.User(data["username"], data["password"])
-        return user.login()
+        if user.get() is None:
+            return {
+                "message": "Username not found"
+            }
+        emp_number = user.get()[0]
+        if user.verify_hash() is True:
+            access_token = create_access_token(identity=emp_number)
+            refresh_token = create_refresh_token(identity=emp_number)
+            return {
+                'message': 'Logged in as {}'.format(data['username']),
+                'access_token': access_token,
+                'refresh_token': refresh_token
+            }
+        else:
+            return {
+                "message": "Username & password does not match"
+            }
+
 
 class PersonalDetail(Resource):
+    @jwt_required
     def get(self):
         # data = parser.parse_args()
         # temporary for testing, on prod remove this
@@ -55,3 +76,10 @@ class PersonalDetail(Resource):
         employee_id = "7187"
         personal_detail = models.PersonalDetail(employee_id)
         return personal_detail.put(data)
+
+class SecretResource(Resource):
+    @jwt_required
+    def get(self):
+        return {
+            'answer': 42
+        }

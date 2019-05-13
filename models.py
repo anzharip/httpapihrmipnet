@@ -1,12 +1,13 @@
 import db
 import bcrypt
 
+
 class User:
     def __init__(self, username, password):
         self.username = username
         self.password = password
 
-    def login(self):
+    def get(self):
         field = "`emp_number`, `user_name`, `user_password`"
         table = "`ohrm_user`"
         sql_filter = "`user_name` = '%s'" % self.username
@@ -16,20 +17,21 @@ class User:
         cursor = db.sql_cursor(connection, statement)
         result = cursor.fetchone()
         db.close_connection(connection, cursor)
-        if result is None:
-            return {
-                "message": "User not found"
-            }
+        return result
+
+    def verify_hash(self):
+        field = "`emp_number`, `user_name`, `user_password`"
+        table = "`ohrm_user`"
+        sql_filter = "`user_name` = '%s'" % self.username
+        statement = "SELECT %s FROM %s WHERE %s LIMIT 0,1" % (
+            field, table, sql_filter)
+        connection = db.open_connection()
+        cursor = db.sql_cursor(connection, statement)
+        result = cursor.fetchone()
+        db.close_connection(connection, cursor)
         bytes_password = bytes(self.password, "utf-8")
         bytes_hashed = bytes(result[2], "utf-8")
-        if bcrypt.checkpw(bytes_password, bytes_hashed):
-            return {
-                "message": "User & Password match"
-            }
-        else:
-            return {
-                "message": "User or Password is wrong"
-            }
+        return bcrypt.checkpw(bytes_password, bytes_hashed)
 
 class PersonalDetail:
     def __init__(self, employee_id):
