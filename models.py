@@ -40,8 +40,6 @@ class User:
 class PersonalDetail:
     def __init__(self, emp_number):
         self.emp_number = emp_number
-        # self.columns = "A.`emp_firstname`, A.`emp_middle_name`, A.`emp_lastname`, A.`employee_id`, A.`emp_other_id`, A.`emp_dri_lice_num`, A.`emp_dri_lice_exp_date`, A.`emp_bpjs_no`, A.`emp_npwp_no`, A.`emp_bpjs_ket_no`, D.`name` AS `work_shift_id`, A.`emp_gender`, A.`emp_marital_status`, E.`name` AS `nation_code`, A.`emp_birthday`, B.`name` AS `emp_religion`, A.`emp_birth_place`"
-        # self.table = "(((`hs_hr_employee` AS A JOIN `ohrm_religion` AS B ON A.`emp_religion`=B.`id`) JOIN `ohrm_employee_work_shift` AS C ON A.`emp_number`=C.`emp_number`) JOIN `ohrm_work_shift` AS D ON C.`work_shift_id`=D.`id`) JOIN `ohrm_nationality` AS E ON A.`nation_code`=E.`id`"
 
     def get(self):
         field = "A.`emp_firstname`, A.`emp_middle_name`, A.`emp_lastname`, A.`employee_id`, A.`emp_other_id`, A.`emp_dri_lice_num`, A.`emp_dri_lice_exp_date`, A.`emp_bpjs_no`, A.`emp_npwp_no`, A.`emp_bpjs_ket_no`, D.`name` AS `work_shift_id`, A.`emp_gender`, A.`emp_marital_status`, E.`name` AS `nation_code`, A.`emp_birthday`, B.`name` AS `emp_religion`, A.`emp_birth_place`"
@@ -70,7 +68,8 @@ class PersonalDetail:
             "nationality": result[13],
             "date_of_birth": result[14].isoformat(),
             "religion": result[15],
-            "place_of_birth": result[16]
+            "place_of_birth": result[16],
+            "message": "Personal detail retrieved succesfully"
         }
         return result
 
@@ -144,7 +143,6 @@ class Attachment:
             table, field, sql_filter)
         connection = db.open_connection()
         cursor = db.sql_cursor(connection, statement)
-        # print(cursor.rowcount)
         connection.commit()
         db.close_connection(connection, cursor)
         return cursor.rowcount
@@ -193,3 +191,39 @@ class Attachment:
         connection.commit()
         db.close_connection(connection, cursor)
         return cursor.rowcount
+
+
+class ContactDetail:
+    def __init__(self, emp_number):
+        self.emp_number = emp_number
+
+    def get(self):
+        field = "`emp_number`,`emp_street1`,`emp_street2`,`city_code`,`provin_code`,`emp_zipcode`,`coun_code`,`emp_hm_telephone`,`emp_mobile`,`emp_work_telephone`,`emp_work_email`,`emp_oth_email`"
+        table = "`hs_hr_employee`"
+        sql_filter = "`emp_number` = %s" % self.emp_number
+        statement = "SELECT %s FROM %s WHERE %s LIMIT 0,1" % (
+            field, table, sql_filter)
+        connection = db.open_connection()
+        cursor = db.sql_cursor(connection, statement)
+        result = cursor.fetchone()
+        db.close_connection(connection, cursor)
+        return result
+
+    def put(self, body):
+        table = "`hs_hr_employee`"
+        field = "`emp_street1` = '%s',`emp_street2` = '%s',`city_code` = '%s',`provin_code` = '%s',`emp_zipcode` = '%s', `coun_code` = '%s', `emp_hm_telephone` = '%s', `emp_mobile` = '%s', `emp_work_telephone` = '%s', `emp_work_email` = '%s', `emp_oth_email` = '%s'" % (
+            body["address_street_1"], body["address_street_2"], body["city"], body["state_province"], body["zip_postal_code"], body[
+                "country"], body["home_telephone"], body["mobile"], body["work_telephone"], body["work_email"], body["other_email"]
+        )
+        sql_filter = "`emp_number` = '%s'" % (self.emp_number)
+        statement = "UPDATE %s SET %s WHERE %s " % (
+            table, field, sql_filter)
+        connection = db.open_connection()
+        cursor = db.sql_cursor(connection, statement)
+        connection.commit()
+        db.close_connection(cursor, connection)
+        return cursor.rowcount
+        result = {
+            "message": "Personal detail succesfully updated"
+        }
+        return result

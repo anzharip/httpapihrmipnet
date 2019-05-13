@@ -22,6 +22,7 @@ api.add_resource(resources.Login, '/login')
 api.add_resource(resources.PersonalDetail, '/myinfo/personaldetail')
 api.add_resource(resources.PersonalDetailAttachment,
                  '/myinfo/personaldetail/attachment')
+api.add_resource(resources.ContactDetail, '/myinfo/contactdetail')
 api.add_resource(resources.ContactDetailAttachment,
                  '/myinfo/contactdetail/attachment')
 api.add_resource(resources.EmergencyContactAttachment,

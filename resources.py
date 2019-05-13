@@ -36,10 +36,7 @@ class Login(Resource):
 class PersonalDetail(Resource):
     @jwt_required
     def get(self):
-        # data = parser.parse_args()
-        # temporary for testing, on prod remove this
         emp_number = get_raw_jwt()['identity']
-        # employee_id = "7187"
         personal_detail = models.PersonalDetail(emp_number)
         return personal_detail.get()
 
@@ -75,8 +72,6 @@ class PersonalDetail(Resource):
         parser.add_argument(
             'place_of_birth', help='This field cannot be blank', required=True)
         data = parser.parse_args()
-        # print(data)
-        # employee_id = "7187"
         emp_number = get_raw_jwt()['identity']
         personal_detail = models.PersonalDetail(emp_number)
         return personal_detail.put(data)
@@ -196,6 +191,67 @@ class EmergencyContactAttachment(PersonalDetailAttachment):
 class DependentAttachment(PersonalDetailAttachment):
     def __init__(self):
         self.screen = "dependent"
+
+
+class ContactDetail(Resource):
+    @jwt_required
+    def get(self):
+        emp_number = get_raw_jwt()['identity']
+        contact_detail = models.ContactDetail(emp_number)
+        data = contact_detail.get()
+        return {
+            "address_street_1": data[1],
+            "address_street_2": data[2],
+            "city": data[3],
+            "state_province": data[4],
+            "zip_postal_code": data[5],
+            "country": data[6],
+            "home_telephone": data[7],
+            "mobile": data[8],
+            "work_telephone": data[9],
+            "work_email": data[10],
+            "other_email": data[11],
+            "message": "Contact detail retrieved succesfully"
+        }
+
+    @jwt_required
+    def put(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument(
+            'address_street_1', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'address_street_2', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'city', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'state_province', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'zip_postal_code', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'country', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'home_telephone', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'mobile', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'work_telephone', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'work_email', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'other_email', help='This field cannot be blank', required=True)
+        data = parser.parse_args()
+        emp_number = get_raw_jwt()['identity']
+        contact_detail = models.ContactDetail(emp_number)
+        result = contact_detail.put(data)
+        if result == 0:
+            return {
+                "message": "Contact detail not updated"
+            }
+        else:
+            return {
+                "message": "Contact detail successfully updated"
+            }
+        return {}
 
 
 class SecretResource(Resource):
