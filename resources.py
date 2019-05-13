@@ -83,12 +83,13 @@ class PersonalDetail(Resource):
 
 
 class PersonalDetailAttachment(Resource):
+    def __init__(self):
+        self.screen = "personal"
+
     @jwt_required
     def get(self):
         emp_number = get_raw_jwt()['identity']
-        # emp_number = "3347"
-        screen = "personal"
-        attachment = models.Attachment(emp_number, screen)
+        attachment = models.Attachment(emp_number, self.screen)
         parser = reqparse.RequestParser()
         parser.add_argument(
             'file_id', help='This field cannot be blank', required=True)
@@ -129,7 +130,6 @@ class PersonalDetailAttachment(Resource):
     @jwt_required
     def post(self):
         emp_number = get_raw_jwt()['identity']
-        screen = "personal"
         parser = reqparse.RequestParser()
         parser.add_argument(
             'select_file', help='This field cannot be blank', required=True)
@@ -138,20 +138,19 @@ class PersonalDetailAttachment(Resource):
         parser.add_argument(
             'comment', help='This field cannot be blank', required=True)
         data = parser.parse_args()
-        attachment = models.Attachment(emp_number, screen)
+        attachment = models.Attachment(emp_number, self.screen)
         return attachment.post(data)
 
     @jwt_required
     def put(self):
         emp_number = get_raw_jwt()['identity']
-        screen = "personal"
         parser = reqparse.RequestParser()
         parser.add_argument(
             'file_id', help='This field cannot be blank', required=True)
         parser.add_argument(
             'comment', help='This field cannot be blank', required=True)
         data = parser.parse_args()
-        attachment = models.Attachment(emp_number, screen)
+        attachment = models.Attachment(emp_number, self.screen)
         if attachment.put_comment(data) == 0:
             return {
                 "message": "Comment not updated or no file_id found"
@@ -167,12 +166,11 @@ class PersonalDetailAttachment(Resource):
     @jwt_required
     def delete(self):
         emp_number = get_raw_jwt()['identity']
-        screen = "personal"
         parser = reqparse.RequestParser()
         parser.add_argument(
             'file_id', help='This field cannot be blank', required=True)
         data = parser.parse_args()
-        attachment = models.Attachment(emp_number, screen)
+        attachment = models.Attachment(emp_number, self.screen)
         if attachment.delete(data['file_id']) == 0:
             return {
                 "message": "No file_id found"
@@ -183,6 +181,22 @@ class PersonalDetailAttachment(Resource):
                 "message": "File succesfully deleted"
             }
             return result
+
+
+class ContactDetailAttachment(PersonalDetailAttachment):
+    def __init__(self):
+        self.screen = "contact"
+
+
+class EmergencyContactAttachment(PersonalDetailAttachment):
+    def __init__(self):
+        self.screen = "emergency"
+
+
+class DependentAttachment(PersonalDetailAttachment):
+    def __init__(self):
+        self.screen = "dependent"
+
 
 class SecretResource(Resource):
     @jwt_required

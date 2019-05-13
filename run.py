@@ -1,7 +1,8 @@
 from flask import Flask
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
-import models, resources
+import models
+import resources
 
 app = Flask(__name__)
 api = Api(app)
@@ -19,5 +20,11 @@ app.config['JWT_SECRET_KEY'] = 'jwt-secret-string'
 
 api.add_resource(resources.Login, '/login')
 api.add_resource(resources.PersonalDetail, '/myinfo/personaldetail')
-api.add_resource(resources.PersonalDetailAttachment, '/myinfo/personaldetail/attachment')
+api.add_resource(resources.PersonalDetailAttachment,
+                 '/myinfo/personaldetail/attachment')
+api.add_resource(resources.ContactDetailAttachment,
+                 '/myinfo/contactdetail/attachment')
+api.add_resource(resources.EmergencyContactAttachment,
+                 '/myinfo/emergencycontact/attachment')
+api.add_resource(resources.DependentAttachment, '/myinfo/dependent/attachment')
 api.add_resource(resources.SecretResource, '/secret')
