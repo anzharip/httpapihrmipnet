@@ -223,7 +223,3 @@ class ContactDetail:
         connection.commit()
         db.close_connection(cursor, connection)
         return cursor.rowcount
-        result = {
-            "message": "Personal detail succesfully updated"
-        }
-        return result
