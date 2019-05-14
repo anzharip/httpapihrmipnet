@@ -268,7 +268,7 @@ class EmergencyContact:
         db.close_connection(connection, cursor)
         if result is None:
             return "1"
-        else: 
+        else:
             return str(result[0]+1)
 
     def post(self, body):
@@ -365,7 +365,7 @@ class Dependent:
         db.close_connection(connection, cursor)
         if result is None:
             return "1"
-        else: 
+        else:
             return str(result[0]+1)
 
     def post(self, body):
@@ -385,7 +385,7 @@ class Dependent:
             "name": body["name"],
             "relationship": body["relationship"],
             "gender": body["gender"],
-            "date_of_birth": body["date_of_birth"], 
+            "date_of_birth": body["date_of_birth"],
             "message": "Dependent succesfully created"
         }
         return result
@@ -415,3 +415,28 @@ class Dependent:
         connection.commit()
         db.close_connection(connection, cursor)
         return cursor.rowcount
+
+
+class Job:
+    def __init__(self, emp_number):
+        self.emp_number = emp_number
+
+    def get(self):
+        field = "A.`emp_number`,C.`job_title` AS `job_title_code`,DATE_FORMAT(A.`joined_date`,'%Y-%m-%d') AS `joined_date`,D.`name` AS `work_station`,E.`name` AS `location_id`,A.`att_type`,DATE_FORMAT(A.`resign_date`,'%Y-%m-%d') AS `resign_date`"
+        table = "(((`hs_hr_employee` AS A JOIN `hs_hr_emp_locations` AS B ON A.`emp_number`=B.`emp_number`) JOIN `ohrm_job_title` AS C ON A.`job_title_code`=C.`id`) JOIN `ohrm_subunit` AS D ON A.`work_station`=D.`id`) JOIN `ohrm_location` AS E ON B.`location_id`=E.`id`"
+        sql_filter = "A.`emp_number`='%s'" % (
+            self.emp_number)
+        statement = "SELECT %s FROM %s WHERE %s LIMIT 0,1" % (
+            field, table, sql_filter)
+        connection = db.open_connection()
+        cursor = db.sql_cursor(connection, statement)
+        result = cursor.fetchone()
+        db.close_connection(connection, cursor)
+        return {
+            "job_title": result[1],
+            "joined_date": result[2],
+            "department": result[3],
+            "location": result[4],
+            "attendance_type": result[5],
+            "resign_date": result[6]
+        }

@@ -14,11 +14,11 @@ class Login(Resource):
             'password', help='This field cannot be blank', required=True)
         data = parser.parse_args()
         user = models.User(data["username"], data["password"])
-        try: 
+        try:
             if user.get() is None:
                 return {
                     "message": "Username not found"
-                }
+                }, 400
             emp_number = user.get()[0]
             if user.verify_hash() is True:
                 access_token = create_access_token(identity=emp_number)
@@ -29,8 +29,8 @@ class Login(Resource):
             else:
                 return {
                     "message": "Username & password does not match"
-                }
-        except: 
+                }, 400
+        except:
             return {'message': 'Something went wrong'}, 500
 
 
@@ -38,10 +38,10 @@ class PersonalDetail(Resource):
     @jwt_required
     def get(self):
         emp_number = get_raw_jwt()['identity']
-        try: 
+        try:
             personal_detail = models.PersonalDetail(emp_number)
             return personal_detail.get()
-        except: 
+        except:
             return {'message': 'Something went wrong'}, 500
 
     @jwt_required
@@ -77,10 +77,10 @@ class PersonalDetail(Resource):
             'place_of_birth', help='This field cannot be blank', required=True)
         data = parser.parse_args()
         emp_number = get_raw_jwt()['identity']
-        try: 
+        try:
             personal_detail = models.PersonalDetail(emp_number)
             return personal_detail.put(data)
-        except: 
+        except:
             return {'message': 'Something went wrong'}, 500
 
 
@@ -96,7 +96,7 @@ class PersonalDetailAttachment(Resource):
         parser.add_argument(
             'file_id', help='This field cannot be blank', required=True)
         data = parser.parse_args()
-        try: 
+        try:
             if data["file_id"] == "all":
                 result = []
                 for attachment in attachment.get_meta_all():
@@ -117,7 +117,7 @@ class PersonalDetailAttachment(Resource):
                 if result is None:
                     return {
                         "message": "File not found"
-                    }
+                    }, 400
                 else:
                     return {
                         "file_id": result[1],
@@ -129,7 +129,7 @@ class PersonalDetailAttachment(Resource):
                         "date_added": result[10],
                         "message": "File succesfully retrieved"
                     }
-        except: 
+        except:
             return {'message': 'Something went wrong'}, 500
 
     @jwt_required
@@ -143,10 +143,10 @@ class PersonalDetailAttachment(Resource):
         parser.add_argument(
             'comment', help='This field cannot be blank', required=True)
         data = parser.parse_args()
-        try: 
+        try:
             attachment = models.Attachment(emp_number, self.screen)
             return attachment.post(data)
-        except: 
+        except:
             return {'message': 'Something went wrong'}, 500
 
     @jwt_required
@@ -159,7 +159,7 @@ class PersonalDetailAttachment(Resource):
             'comment', help='This field cannot be blank', required=True)
         data = parser.parse_args()
         attachment = models.Attachment(emp_number, self.screen)
-        try: 
+        try:
             if attachment.put_comment(data) == 0:
                 return {
                     "message": "Comment not updated or no file_id found"
@@ -171,7 +171,7 @@ class PersonalDetailAttachment(Resource):
                     "message": "Comment succesfully updated"
                 }
                 return result
-        except: 
+        except:
             return {'message': 'Something went wrong'}, 500
 
     @jwt_required
@@ -186,14 +186,14 @@ class PersonalDetailAttachment(Resource):
             if attachment.delete(data['file_id']) == 0:
                 return {
                     "message": "No file_id found"
-                }
+                }, 400
             else:
                 result = {
                     "file_id": data['file_id'],
                     "message": "File succesfully deleted"
                 }
                 return result
-        except: 
+        except:
             return {'message': 'Something went wrong'}, 500
 
 
@@ -233,7 +233,7 @@ class EmergencyContact(Resource):
                 if result is None:
                     return {
                         "message": "Emergency Contact not found"
-                    }
+                    }, 400
                 else:
                     return {
                         "emergencycontact_id": str(result[1]),
@@ -245,7 +245,7 @@ class EmergencyContact(Resource):
                         "address": result[7],
                         "message": "Emergency contact succesfully retrieved"
                     }
-        except: 
+        except:
             return {'message': 'Something went wrong'}, 500
 
     @jwt_required
@@ -268,7 +268,7 @@ class EmergencyContact(Resource):
         try:
             emergency_contact = models.EmergencyContact(emp_number)
             return emergency_contact.post(data)
-        except: 
+        except:
             return {'message': 'Something went wrong'}, 500
 
     @jwt_required
@@ -291,11 +291,11 @@ class EmergencyContact(Resource):
             'address', help='This field cannot be blank', required=True)
         data = parser.parse_args()
         emergency_contact = models.EmergencyContact(emp_number)
-        try: 
+        try:
             if emergency_contact.put(data) == 0:
                 return {
                     "message": "Emergency Contact not updated or no emergencycontact_id found"
-                }
+                }, 400
             else:
                 result = {
                     "emergencycontact_id": data["emergencycontact_id"],
@@ -308,7 +308,7 @@ class EmergencyContact(Resource):
                     "message": "Emergency Contact succesfully updated"
                 }
                 return result
-        except: 
+        except:
             return {'message': 'Something went wrong'}, 500
 
     @jwt_required
@@ -319,18 +319,18 @@ class EmergencyContact(Resource):
             'emergencycontact_id', help='This field cannot be blank', required=True)
         data = parser.parse_args()
         emergency_contact = models.EmergencyContact(emp_number)
-        try: 
+        try:
             if emergency_contact.delete(data['emergencycontact_id']) == 0:
                 return {
                     "message": "No emergencycontact_id found"
-                }
+                }, 400
             else:
                 result = {
                     "emergencycontact_id": data['emergencycontact_id'],
                     "message": "Emergency Contact succesfully deleted"
                 }
                 return result
-        except: 
+        except:
             return {'message': 'Something went wrong'}, 500
 
 
@@ -365,7 +365,7 @@ class ContactDetail(Resource):
                 "other_email": data[11],
                 "message": "Contact detail retrieved succesfully"
             }
-        except: 
+        except:
             return {'message': 'Something went wrong'}, 500
 
     @jwt_required
@@ -401,13 +401,14 @@ class ContactDetail(Resource):
             if result == 0:
                 return {
                     "message": "Contact detail not updated"
-                }
+                }, 400
             else:
                 return {
                     "message": "Contact detail successfully updated"
                 }
-        except: 
+        except:
             return {'message': 'Something went wrong'}, 500
+
 
 class Dependent(Resource):
     @jwt_required
@@ -418,7 +419,7 @@ class Dependent(Resource):
         parser.add_argument(
             'dependent_id', help='This field cannot be blank', required=True)
         data = parser.parse_args()
-        try: 
+        try:
             if data["dependent_id"] == "all":
                 result = []
                 for dependent in dependent.get_all():
@@ -438,7 +439,7 @@ class Dependent(Resource):
                 if result is None:
                     return {
                         "message": "Dependent not found"
-                    }
+                    }, 400
                 else:
                     return {
                         "dependent_id": str(result[1]),
@@ -448,7 +449,7 @@ class Dependent(Resource):
                         "date_of_birth": result[5].isoformat(),
                         "message": "Dependent succesfully retrieved"
                     }
-        except: 
+        except:
             return {'message': 'Something went wrong'}, 500
 
     @jwt_required
@@ -490,7 +491,7 @@ class Dependent(Resource):
             if dependent.put(data) == 0:
                 return {
                     "message": "Dependent not updated or no dependent_id found"
-                }
+                }, 400
             else:
                 result = {
                     "dependent_id": data["dependent_id"],
@@ -516,14 +517,26 @@ class Dependent(Resource):
             if dependent.delete(data['dependent_id']) == 0:
                 return {
                     "message": "No dependent_id found"
-                }
+                }, 400
             else:
                 result = {
                     "dependent_id": data['dependent_id'],
                     "message": "Dependent succesfully deleted"
                 }
                 return result
-        except: 
+        except:
+            return {'message': 'Something went wrong'}, 500
+
+
+class Job(Resource):
+    @jwt_required
+    def get(self):
+        emp_number = get_raw_jwt()['identity']
+        
+        try:
+            job = models.Job(emp_number)
+            return job.get()
+        except:
             return {'message': 'Something went wrong'}, 500
 
 
