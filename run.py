@@ -25,6 +25,8 @@ api.add_resource(resources.PersonalDetailAttachment,
 api.add_resource(resources.ContactDetail, '/myinfo/contactdetail')
 api.add_resource(resources.ContactDetailAttachment,
                  '/myinfo/contactdetail/attachment')
+api.add_resource(resources.EmergencyContact,
+                 '/myinfo/emergencycontact')
 api.add_resource(resources.EmergencyContactAttachment,
                  '/myinfo/emergencycontact/attachment')
 api.add_resource(resources.DependentAttachment, '/myinfo/dependent/attachment')

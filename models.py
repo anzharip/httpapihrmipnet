@@ -223,3 +223,97 @@ class ContactDetail:
         connection.commit()
         db.close_connection(cursor, connection)
         return cursor.rowcount
+
+
+class EmergencyContact:
+    def __init__(self, emp_number):
+        self.emp_number = emp_number
+
+    def get_all(self):
+        field = "`emp_number`,`eec_seqno`,`eec_name`,`eec_relationship`,`eec_home_no`,`eec_mobile_no`,`eec_office_no`,`eec_address`"
+        table = "`hs_hr_emp_emergency_contacts`"
+        sql_filter = "`emp_number`='%s'" % (
+            self.emp_number)
+        statement = "SELECT %s FROM %s WHERE %s LIMIT 0,1000" % (
+            field, table, sql_filter)
+        connection = db.open_connection()
+        cursor = db.sql_cursor(connection, statement)
+        result = cursor.fetchall()
+        db.close_connection(connection, cursor)
+        return result
+
+    def get(self, eec_seqno):
+        field = "`emp_number`,`eec_seqno`,`eec_name`,`eec_relationship`,`eec_home_no`,`eec_mobile_no`,`eec_office_no`,`eec_address`"
+        table = "`hs_hr_emp_emergency_contacts`"
+        sql_filter = "`emp_number`='%s'  AND `eec_seqno` = '%s'" % (
+            self.emp_number, eec_seqno)
+        statement = "SELECT %s FROM %s WHERE %s LIMIT 0,1" % (
+            field, table, sql_filter)
+        connection = db.open_connection()
+        cursor = db.sql_cursor(connection, statement)
+        result = cursor.fetchone()
+        db.close_connection(connection, cursor)
+        return result
+
+    def get_next_eec_seqno_value(self):
+        field = "`eec_seqno`"
+        table = "`hs_hr_emp_emergency_contacts`"
+        sql_filter = "`emp_number`='%s'" % (
+            self.emp_number)
+        statement = "SELECT %s FROM %s WHERE %s ORDER BY `eec_seqno` DESC LIMIT 0,1" % (
+            field, table, sql_filter)
+        connection = db.open_connection()
+        cursor = db.sql_cursor(connection, statement)
+        result = cursor.fetchone()
+        db.close_connection(connection, cursor)
+        return str(result[0]+1)
+
+    def post(self, body):
+        eec_seqno = self.get_next_eec_seqno_value()
+        field = "(`emp_number`, `eec_seqno`, `eec_name`, `eec_relationship`, `eec_home_no`, `eec_mobile_no`, `eec_office_no`, `eec_address`)"
+        values = "('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')" % (self.emp_number, eec_seqno,
+                                                                       body["name"], body["relationship"], body["home_telephone"], body["mobile"], body["work_telephone"], body["address"])
+        table = "`hs_hr_emp_emergency_contacts`"
+        statement = "INSERT INTO %s %s VALUES %s" % (
+            table, field, values)
+        connection = db.open_connection()
+        cursor = db.sql_cursor(connection, statement)
+        connection.commit()
+        db.close_connection(connection, cursor)
+        result = {
+            "emergency_contactid": eec_seqno,
+            "name": body["name"],
+            "relationship": body["relationship"],
+            "mobile": body["mobile"],
+            "home_telephone": body["home_telephone"],
+            "work_telephone": body["work_telephone"],
+            "address": body["address"],
+            "message": "Emergency contact succesfully created"
+        }
+        return result
+
+    def put(self, body):
+        field = "`eec_name` = '%s', `eec_relationship` = '%s', `eec_home_no` = '%s', `eec_mobile_no` = '%s', `eec_office_no` = '%s', `eec_address` = '%s'" % (
+            body["name"], body["relationship"], body["home_telephone"], body["mobile"], body["work_telephone"], body["address"])
+        table = "`hs_hr_emp_emergency_contacts`"
+        sql_filter = "`emp_number`='%s' AND `eec_seqno` = '%s'" % (
+            self.emp_number, body["emergency_contactid"])
+        statement = "UPDATE %s SET %s WHERE %s" % (
+            table, field, sql_filter)
+        connection = db.open_connection()
+        cursor = db.sql_cursor(connection, statement)
+        connection.commit()
+        db.close_connection(connection, cursor)
+        return cursor.rowcount
+
+    def delete(self, emergency_contactid):
+        table = "`hs_hr_emp_emergency_contacts`"
+        sql_filter = "`emp_number`='%s' AND `eec_seqno` = '%s'" % (
+            self.emp_number, emergency_contactid)
+        statement = "DELETE FROM %s WHERE %s" % (
+            table, sql_filter)
+        connection = db.open_connection()
+        cursor = db.sql_cursor(connection, statement)
+        connection.commit()
+        db.close_connection(connection, cursor)
+        return cursor.rowcount

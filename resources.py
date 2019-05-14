@@ -183,6 +183,130 @@ class ContactDetailAttachment(PersonalDetailAttachment):
         self.screen = "contact"
 
 
+class EmergencyContact:
+    @jwt_required
+    def get(self):
+        emp_number = get_raw_jwt()['identity']
+        emergency_contact = models.EmergencyContact(emp_number)
+        parser = reqparse.RequestParser()
+        parser.add_argument(
+            'emergency_contactid', help='This field cannot be blank', required=True)
+        data = parser.parse_args()
+        if data["emergency_contactid"] == "all":
+            result = []
+            for emergency_contact in emergency_contact.get_all():
+                result.append(
+                    {
+                        "emergencycontact_id": emergency_contact[1],
+                        "name": emergency_contact[2],
+                        "relationship": emergency_contact[3],
+                        "mobile": emergency_contact[5],
+                        "home_telephone": emergency_contact[4],
+                        "work_telephone": emergency_contact[6],
+                        "address": emergency_contact[7],
+                        "message": "Emergency contact succesfully retrieved"
+                    }
+                )
+            return result
+        else:
+            result = emergency_contact.get(data["emergency_contactid"])
+            if result is None:
+                return {
+                    "message": "Emergency Contact not found"
+                }
+            else:
+                return {
+                        "emergencycontact_id": result[1],
+                        "name": result[2],
+                        "relationship": result[3],
+                        "mobile": result[5],
+                        "home_telephone": result[4],
+                        "work_telephone": result[6],
+                        "address": result[7],
+                        "message": "Emergency contact succesfully retrieved"
+                    }
+
+    @jwt_required
+    def post(self):
+        emp_number = get_raw_jwt()['identity']
+        parser = reqparse.RequestParser()
+        parser.add_argument(
+            'name', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'relationship', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'mobile', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'home_telephone', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'work_telephone', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'address', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'message', help='This field cannot be blank', required=True)
+        data = parser.parse_args()
+        emergency_contact = models.EmergencyContact(emp_number)
+        return emergency_contact.post(data)
+
+    @jwt_required
+    def put(self):
+        emp_number = get_raw_jwt()['identity']
+        parser = reqparse.RequestParser()
+        parser.add_argument(
+            'emergencycontact_id', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'name', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'relationship', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'mobile', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'home_telephone', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'work_telephone', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'address', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'message', help='This field cannot be blank', required=True)
+        data = parser.parse_args()
+        emergency_contact = models.EmergencyContact(emp_number)
+        if emergency_contact.put(data) == 0:
+            return {
+                "message": "Emeregency Contact not updated or no emergencycontact_id found"
+            }
+        else:
+            result = {
+                        "emergencycontact_id": data["emergencycontact_id"],
+                        "name": data["name"],
+                        "relationship": data["relationship"],
+                        "mobile": data["mobile"],
+                        "home_telephone": data["home_telephone"],
+                        "work_telephone": data["work_telephone"],
+                        "address": data["address"],
+                        "message": "Emergency Contact succesfully updated"
+                    }
+            return result
+
+    @jwt_required
+    def delete(self):
+        emp_number = get_raw_jwt()['identity']
+        parser = reqparse.RequestParser()
+        parser.add_argument(
+            'emergencycontact_id', help='This field cannot be blank', required=True)
+        data = parser.parse_args()
+        emergency_contact = models.EmergencyContact(emp_number)
+        if emergency_contact.delete(data['emergencycontact_id']) == 0:
+            return {
+                "message": "No emergencycontact_id found"
+            }
+        else:
+            result = {
+                "emergencycontact_id": data['emergencycontact_id'],
+                "message": "Emergency Contact succesfully deleted"
+            }
+            return result
+
+
 class EmergencyContactAttachment(PersonalDetailAttachment):
     def __init__(self):
         self.screen = "emergency"
