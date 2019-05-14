@@ -27,4 +27,3 @@ api.add_resource(resources.EmergencyContactAttachment,
 api.add_resource(resources.Dependent, '/myinfo/dependent')
 api.add_resource(resources.DependentAttachment, '/myinfo/dependent/attachment')
 api.add_resource(resources.Job, '/myinfo/job')
-api.add_resource(resources.SecretResource, '/secret')

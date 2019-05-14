@@ -532,17 +532,8 @@ class Job(Resource):
     @jwt_required
     def get(self):
         emp_number = get_raw_jwt()['identity']
-        
         try:
             job = models.Job(emp_number)
             return job.get()
         except:
             return {'message': 'Something went wrong'}, 500
-
-
-class SecretResource(Resource):
-    @jwt_required
-    def get(self):
-        return {
-            'answer': 42
-        }
