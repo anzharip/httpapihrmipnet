@@ -266,7 +266,10 @@ class EmergencyContact:
         cursor = db.sql_cursor(connection, statement)
         result = cursor.fetchone()
         db.close_connection(connection, cursor)
-        return str(result[0]+1)
+        if result is None:
+            return "1"
+        else: 
+            return str(result[0]+1)
 
     def post(self, body):
         eec_seqno = self.get_next_eec_seqno_value()
@@ -297,7 +300,7 @@ class EmergencyContact:
             body["name"], body["relationship"], body["home_telephone"], body["mobile"], body["work_telephone"], body["address"])
         table = "`hs_hr_emp_emergency_contacts`"
         sql_filter = "`emp_number`='%s' AND `eec_seqno` = '%s'" % (
-            self.emp_number, body["emergency_contactid"])
+            self.emp_number, body["emergencycontact_id"])
         statement = "UPDATE %s SET %s WHERE %s" % (
             table, field, sql_filter)
         connection = db.open_connection()
@@ -306,10 +309,105 @@ class EmergencyContact:
         db.close_connection(connection, cursor)
         return cursor.rowcount
 
-    def delete(self, emergency_contactid):
+    def delete(self, emergencycontact_id):
         table = "`hs_hr_emp_emergency_contacts`"
         sql_filter = "`emp_number`='%s' AND `eec_seqno` = '%s'" % (
-            self.emp_number, emergency_contactid)
+            self.emp_number, emergencycontact_id)
+        statement = "DELETE FROM %s WHERE %s" % (
+            table, sql_filter)
+        connection = db.open_connection()
+        cursor = db.sql_cursor(connection, statement)
+        connection.commit()
+        db.close_connection(connection, cursor)
+        return cursor.rowcount
+
+
+class Dependent:
+    def __init__(self, emp_number):
+        self.emp_number = emp_number
+
+    def get_all(self):
+        field = "`emp_number`, `ed_seqno`, `ed_name`, `ed_relationship_type`, `ed_relationship`, `ed_date_of_birth`, `ed_gender`"
+        table = "`hs_hr_emp_dependents`"
+        sql_filter = "`emp_number`='%s'" % (
+            self.emp_number)
+        statement = "SELECT %s FROM %s WHERE %s LIMIT 0,1000" % (
+            field, table, sql_filter)
+        connection = db.open_connection()
+        cursor = db.sql_cursor(connection, statement)
+        result = cursor.fetchall()
+        db.close_connection(connection, cursor)
+        return result
+
+    def get(self, ed_seqno):
+        field = "`emp_number`, `ed_seqno`, `ed_name`, `ed_relationship_type`, `ed_relationship`, `ed_date_of_birth`, `ed_gender`"
+        table = "`hs_hr_emp_dependents`"
+        sql_filter = "`emp_number`='%s'  AND `ed_seqno` = '%s'" % (
+            self.emp_number, ed_seqno)
+        statement = "SELECT %s FROM %s WHERE %s LIMIT 0,1" % (
+            field, table, sql_filter)
+        connection = db.open_connection()
+        cursor = db.sql_cursor(connection, statement)
+        result = cursor.fetchone()
+        db.close_connection(connection, cursor)
+        return result
+
+    def get_next_ed_seqno_value(self):
+        field = "`ed_seqno`"
+        table = "`hs_hr_emp_dependents`"
+        sql_filter = "`emp_number`='%s'" % (
+            self.emp_number)
+        statement = "SELECT %s FROM %s WHERE %s ORDER BY `ed_seqno` DESC LIMIT 0,1" % (
+            field, table, sql_filter)
+        connection = db.open_connection()
+        cursor = db.sql_cursor(connection, statement)
+        result = cursor.fetchone()
+        db.close_connection(connection, cursor)
+        if result is None:
+            return "1"
+        else: 
+            return str(result[0]+1)
+
+    def post(self, body):
+        ed_seqno = self.get_next_ed_seqno_value()
+        field = "(`emp_number`, `ed_seqno`, `ed_name`, `ed_relationship_type`, `ed_gender`, `ed_date_of_birth`)"
+        values = "('%s', '%s', '%s', '%s', '%s', '%s')" % (self.emp_number, ed_seqno,
+                                                           body["name"], body["relationship"], body["gender"], body["date_of_birth"])
+        table = "`hs_hr_emp_dependents`"
+        statement = "INSERT INTO %s %s VALUES %s" % (
+            table, field, values)
+        connection = db.open_connection()
+        cursor = db.sql_cursor(connection, statement)
+        connection.commit()
+        db.close_connection(connection, cursor)
+        result = {
+            "dependent_id": ed_seqno,
+            "name": body["name"],
+            "relationship": body["relationship"],
+            "gender": body["gender"],
+            "date_of_birth": body["date_of_birth"], 
+            "message": "Dependent succesfully created"
+        }
+        return result
+
+    def put(self, body):
+        field = "`ed_name` = '%s', `ed_relationship_type` = '%s', `ed_gender` = '%s', `ed_date_of_birth` = '%s'" % (
+            body["name"], body["relationship"], body["gender"], body["date_of_birth"])
+        table = "`hs_hr_emp_dependents`"
+        sql_filter = "`emp_number`='%s' AND `ed_seqno` = '%s'" % (
+            self.emp_number, body["dependent_id"])
+        statement = "UPDATE %s SET %s WHERE %s" % (
+            table, field, sql_filter)
+        connection = db.open_connection()
+        cursor = db.sql_cursor(connection, statement)
+        connection.commit()
+        db.close_connection(connection, cursor)
+        return cursor.rowcount
+
+    def delete(self, dependent_id):
+        table = "`hs_hr_emp_dependents`"
+        sql_filter = "`emp_number`='%s' AND `ed_seqno` = '%s'" % (
+            self.emp_number, dependent_id)
         statement = "DELETE FROM %s WHERE %s" % (
             table, sql_filter)
         connection = db.open_connection()

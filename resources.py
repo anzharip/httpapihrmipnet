@@ -183,21 +183,21 @@ class ContactDetailAttachment(PersonalDetailAttachment):
         self.screen = "contact"
 
 
-class EmergencyContact:
+class EmergencyContact(Resource):
     @jwt_required
     def get(self):
         emp_number = get_raw_jwt()['identity']
         emergency_contact = models.EmergencyContact(emp_number)
         parser = reqparse.RequestParser()
         parser.add_argument(
-            'emergency_contactid', help='This field cannot be blank', required=True)
+            'emergencycontact_id', help='This field cannot be blank', required=True)
         data = parser.parse_args()
-        if data["emergency_contactid"] == "all":
+        if data["emergencycontact_id"] == "all":
             result = []
             for emergency_contact in emergency_contact.get_all():
                 result.append(
                     {
-                        "emergencycontact_id": emergency_contact[1],
+                        "emergencycontact_id": str(emergency_contact[1]),
                         "name": emergency_contact[2],
                         "relationship": emergency_contact[3],
                         "mobile": emergency_contact[5],
@@ -209,22 +209,22 @@ class EmergencyContact:
                 )
             return result
         else:
-            result = emergency_contact.get(data["emergency_contactid"])
+            result = emergency_contact.get(data["emergencycontact_id"])
             if result is None:
                 return {
                     "message": "Emergency Contact not found"
                 }
             else:
                 return {
-                        "emergencycontact_id": result[1],
-                        "name": result[2],
-                        "relationship": result[3],
-                        "mobile": result[5],
-                        "home_telephone": result[4],
-                        "work_telephone": result[6],
-                        "address": result[7],
-                        "message": "Emergency contact succesfully retrieved"
-                    }
+                    "emergencycontact_id": str(result[1]),
+                    "name": result[2],
+                    "relationship": result[3],
+                    "mobile": result[5],
+                    "home_telephone": result[4],
+                    "work_telephone": result[6],
+                    "address": result[7],
+                    "message": "Emergency contact succesfully retrieved"
+                }
 
     @jwt_required
     def post(self):
@@ -242,8 +242,6 @@ class EmergencyContact:
             'work_telephone', help='This field cannot be blank', required=True)
         parser.add_argument(
             'address', help='This field cannot be blank', required=True)
-        parser.add_argument(
-            'message', help='This field cannot be blank', required=True)
         data = parser.parse_args()
         emergency_contact = models.EmergencyContact(emp_number)
         return emergency_contact.post(data)
@@ -266,25 +264,23 @@ class EmergencyContact:
             'work_telephone', help='This field cannot be blank', required=True)
         parser.add_argument(
             'address', help='This field cannot be blank', required=True)
-        parser.add_argument(
-            'message', help='This field cannot be blank', required=True)
         data = parser.parse_args()
         emergency_contact = models.EmergencyContact(emp_number)
         if emergency_contact.put(data) == 0:
             return {
-                "message": "Emeregency Contact not updated or no emergencycontact_id found"
+                "message": "Emergency Contact not updated or no emergencycontact_id found"
             }
         else:
             result = {
-                        "emergencycontact_id": data["emergencycontact_id"],
-                        "name": data["name"],
-                        "relationship": data["relationship"],
-                        "mobile": data["mobile"],
-                        "home_telephone": data["home_telephone"],
-                        "work_telephone": data["work_telephone"],
-                        "address": data["address"],
-                        "message": "Emergency Contact succesfully updated"
-                    }
+                "emergencycontact_id": data["emergencycontact_id"],
+                "name": data["name"],
+                "relationship": data["relationship"],
+                "mobile": data["mobile"],
+                "home_telephone": data["home_telephone"],
+                "work_telephone": data["work_telephone"],
+                "address": data["address"],
+                "message": "Emergency Contact succesfully updated"
+            }
             return result
 
     @jwt_required
@@ -376,6 +372,112 @@ class ContactDetail(Resource):
                 "message": "Contact detail successfully updated"
             }
         return {}
+
+
+class Dependent(Resource):
+    @jwt_required
+    def get(self):
+        emp_number = get_raw_jwt()['identity']
+        dependent = models.Dependent(emp_number)
+        parser = reqparse.RequestParser()
+        parser.add_argument(
+            'dependent_id', help='This field cannot be blank', required=True)
+        data = parser.parse_args()
+        if data["dependent_id"] == "all":
+            result = []
+            for dependent in dependent.get_all():
+                result.append(
+                    {
+                        "dependent_id": str(dependent[1]),
+                        "name": dependent[2],
+                        "relationship": dependent[3],
+                        "gender": dependent[6],
+                        "date_of_birth": dependent[5].isoformat(),
+                        "message": "Dependent succesfully retrieved"
+                    }
+                )
+            return result
+        else:
+            result = dependent.get(data["dependent_id"])
+            if result is None:
+                return {
+                    "message": "Dependent not found"
+                }
+            else:
+                return {
+                    "dependent_id": str(result[1]),
+                    "name": result[2],
+                    "relationship": result[3],
+                    "gender": result[6],
+                    "date_of_birth": result[5].isoformat(),
+                    "message": "Dependent succesfully retrieved"
+                }
+
+    @jwt_required
+    def post(self):
+        emp_number = get_raw_jwt()['identity']
+        parser = reqparse.RequestParser()
+        parser.add_argument(
+            'name', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'relationship', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'gender', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'date_of_birth', help='This field cannot be blank', required=True)
+        data = parser.parse_args()
+        dependent = models.Dependent(emp_number)
+        return dependent.post(data)
+
+    @jwt_required
+    def put(self):
+        emp_number = get_raw_jwt()['identity']
+        parser = reqparse.RequestParser()
+        parser.add_argument(
+            'dependent_id', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'name', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'relationship', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'gender', help='This field cannot be blank', required=True)
+        parser.add_argument(
+            'date_of_birth', help='This field cannot be blank', required=True)
+        data = parser.parse_args()
+        dependent = models.Dependent(emp_number)
+        if dependent.put(data) == 0:
+            return {
+                "message": "Dependent not updated or no dependent_id found"
+            }
+        else:
+            result = {
+                "dependent_id": data["dependent_id"],
+                "name": data["name"],
+                "relationship": data["relationship"],
+                "gender": data["gender"],
+                "date_of_birth": data["date_of_birth"],
+                "message": "Dependent succesfully updated"
+            }
+            return result
+
+    @jwt_required
+    def delete(self):
+        emp_number = get_raw_jwt()['identity']
+        parser = reqparse.RequestParser()
+        parser.add_argument(
+            'dependent_id', help='This field cannot be blank', required=True)
+        data = parser.parse_args()
+        dependent = models.Dependent(emp_number)
+        if dependent.delete(data['dependent_id']) == 0:
+            return {
+                "message": "No dependent_id found"
+            }
+        else:
+            result = {
+                "dependent_id": data['dependent_id'],
+                "message": "Dependent succesfully deleted"
+            }
+            return result
 
 
 class SecretResource(Resource):

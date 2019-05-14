@@ -1,23 +1,25 @@
 import models
 
-emergency_contact = models.EmergencyContact("3347")
-
-# print (emergency_contact.get_all())
-
-# print (emergency_contact.get('4'))
-
-# print (emergency_contact.get_last_eec_seqno_value())
+dependent = models.Dependent("3347")
 
 # body = {
-#     "emergency_contactid": "5",
-#     "name": "Jane Doeee",
+#     "name": "Jane Doe",
 #     "relationship": "Wife",
-#     "mobile": "080989999",
-#     "home_telephone": "080989999",
-#     "work_telephone": "080989999",
-#     "address": "Jl. Majapahit 26R"
+#     "gender": "2",
+#     "date_of_birth": "1945-08-17"
 # }
 
-# print (emergency_contact.put(body))
+# print(dependent.post(body))
 
-print (emergency_contact.delete("6"))
+# print (dependent.get_all())
+
+# body = {
+#     "dependent_id": "7",
+#     "name": "Jane Doeeee",
+#     "relationship": "Wife",
+#     "gender": "2",
+#     "date_of_birth": "1945-08-17"
+# }
+# print (dependent.put(body))
+
+print (dependent.delete("6"))
