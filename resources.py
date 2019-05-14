@@ -22,11 +22,9 @@ class Login(Resource):
             emp_number = user.get()[0]
             if user.verify_hash() is True:
                 access_token = create_access_token(identity=emp_number)
-                refresh_token = create_refresh_token(identity=emp_number)
                 return {
                     'message': 'Logged in as {}'.format(data['username']),
-                    'access_token': access_token,
-                    'refresh_token': refresh_token
+                    'access_token': access_token
                 }
             else:
                 return {
