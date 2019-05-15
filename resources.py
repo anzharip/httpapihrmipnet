@@ -102,7 +102,7 @@ class PersonalDetailAttachment(Resource):
                 for attachment in attachment.get_meta_all():
                     result.append(
                         {
-                            "file_id": attachment[1],
+                            "file_id": str(attachment[1]),
                             "comment": attachment[2],
                             "file_name": attachment[3],
                             "size": attachment[4],
@@ -428,7 +428,7 @@ class Dependent(Resource):
                             "dependent_id": str(dependent[1]),
                             "name": dependent[2],
                             "relationship": dependent[3],
-                            "gender": dependent[6],
+                            "gender": str(dependent[6]),
                             "date_of_birth": dependent[5].isoformat(),
                             "message": "Dependent succesfully retrieved"
                         }
@@ -494,10 +494,10 @@ class Dependent(Resource):
                 }, 400
             else:
                 result = {
-                    "dependent_id": data["dependent_id"],
+                    "dependent_id": str(data["dependent_id"]),
                     "name": data["name"],
                     "relationship": data["relationship"],
-                    "gender": data["gender"],
+                    "gender": str(data["gender"]),
                     "date_of_birth": data["date_of_birth"],
                     "message": "Dependent succesfully updated"
                 }
@@ -520,7 +520,7 @@ class Dependent(Resource):
                 }, 400
             else:
                 result = {
-                    "dependent_id": data['dependent_id'],
+                    "dependent_id": str(data['dependent_id']),
                     "message": "Dependent succesfully deleted"
                 }
                 return result
@@ -548,12 +548,13 @@ class Nationality(Resource):
             for nationality in nationality.get_all():
                 result.append(
                     {
-                        "nation_code": nationality[0],
+                        "nation_code": str(nationality[0]),
                         "nation_name": nationality[1]
                     }
                 )
             return result
-        except:
+        except Exception as e:
+            print(e)
             return {'message': 'Something went wrong'}, 500
 
 
@@ -561,49 +562,52 @@ class WorkShift(Resource):
     @jwt_required
     def get(self):
         try:
-            workshift = WorkShift.Nationality()
+            workshift = models.WorkShift()
             result = []
             for workshift in workshift.get_all():
                 result.append(
                     {
-                        "nation_code": workshift[0],
-                        "nation_name": workshift[1]
+                        "workshift_code": str(workshift[0]),
+                        "workshift_name": workshift[1]
                     }
                 )
             return result
-        except:
+        except Exception as e:
+            print(e)
             return {'message': 'Something went wrong'}, 500
 
 class Religion(Resource):
     @jwt_required
     def get(self):
         try:
-            religion = Religion.Nationality()
+            religion = models.Religion()
             result = []
             for religion in religion.get_all():
                 result.append(
                     {
-                        "nation_code": religion[0],
-                        "nation_name": religion[1]
+                        "religion_code": str(religion[0]),
+                        "religion_name": religion[1]
                     }
                 )
             return result
-        except:
+        except Exception as e:
+            print(e)
             return {'message': 'Something went wrong'}, 500
 
 class Country(Resource):
     @jwt_required
     def get(self):
         try:
-            country = Country.Nationality()
+            country = models.Country()
             result = []
             for country in country.get_all():
                 result.append(
                     {
-                        "nation_code": country[0],
-                        "nation_name": country[1]
+                        "country_code": country[0],
+                        "country_name": country[1]
                     }
                 )
             return result
-        except:
+        except Exception as e:
+            print(e)
             return {'message': 'Something went wrong'}, 500
