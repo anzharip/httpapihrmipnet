@@ -440,3 +440,55 @@ class Job:
             "attendance_type": result[5],
             "resign_date": result[6]
         }
+
+
+class Nationality():
+    def get_all(self):
+        field = "`id`, `name`"
+        table = "`ohrm_nationality`"
+        statement = "SELECT %s FROM %s LIMIT 0,1000" % (
+            field, table)
+        connection = db.open_connection()
+        cursor = db.sql_cursor(connection, statement)
+        result = cursor.fetchall()
+        db.close_connection(connection, cursor)
+        return result
+
+
+class WorkShift():
+    def get_all(self):
+        field = "`id`, `name`"
+        table = "`ohrm_work_shift`"
+        statement = "SELECT %s FROM %s LIMIT 0,1000" % (
+            field, table)
+        connection = db.open_connection()
+        cursor = db.sql_cursor(connection, statement)
+        result = cursor.fetchall()
+        db.close_connection(connection, cursor)
+        return result
+
+
+class Religion():
+    def get_all(self):
+        field = "`id`, `name`"
+        table = "`ohrm_religion`"
+        statement = "SELECT %s FROM %s LIMIT 0,1000" % (
+            field, table)
+        connection = db.open_connection()
+        cursor = db.sql_cursor(connection, statement)
+        result = cursor.fetchall()
+        db.close_connection(connection, cursor)
+        return result
+
+
+class Country():
+    def get_all(self):
+        field = "`cou_code`, `cou_name`"
+        table = "`hs_hr_country`"
+        statement = "SELECT %s FROM %s LIMIT 0,1000" % (
+            field, table)
+        connection = db.open_connection()
+        cursor = db.sql_cursor(connection, statement)
+        result = cursor.fetchall()
+        db.close_connection(connection, cursor)
+        return result

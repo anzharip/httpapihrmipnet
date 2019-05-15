@@ -537,3 +537,73 @@ class Job(Resource):
             return job.get()
         except:
             return {'message': 'Something went wrong'}, 500
+
+
+class Nationality(Resource):
+    @jwt_required
+    def get(self):
+        try:
+            nationality = models.Nationality()
+            result = []
+            for nationality in nationality.get_all():
+                result.append(
+                    {
+                        "nation_code": nationality[0],
+                        "nation_name": nationality[1]
+                    }
+                )
+            return result
+        except:
+            return {'message': 'Something went wrong'}, 500
+
+
+class WorkShift(Resource):
+    @jwt_required
+    def get(self):
+        try:
+            workshift = WorkShift.Nationality()
+            result = []
+            for workshift in workshift.get_all():
+                result.append(
+                    {
+                        "nation_code": workshift[0],
+                        "nation_name": workshift[1]
+                    }
+                )
+            return result
+        except:
+            return {'message': 'Something went wrong'}, 500
+
+class Religion(Resource):
+    @jwt_required
+    def get(self):
+        try:
+            religion = Religion.Nationality()
+            result = []
+            for religion in religion.get_all():
+                result.append(
+                    {
+                        "nation_code": religion[0],
+                        "nation_name": religion[1]
+                    }
+                )
+            return result
+        except:
+            return {'message': 'Something went wrong'}, 500
+
+class Country(Resource):
+    @jwt_required
+    def get(self):
+        try:
+            country = Country.Nationality()
+            result = []
+            for country in country.get_all():
+                result.append(
+                    {
+                        "nation_code": country[0],
+                        "nation_name": country[1]
+                    }
+                )
+            return result
+        except:
+            return {'message': 'Something went wrong'}, 500
