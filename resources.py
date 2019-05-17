@@ -540,7 +540,6 @@ class Job(Resource):
 
 
 class Nationality(Resource):
-    @jwt_required
     def get(self):
         try:
             nationality = models.Nationality()
@@ -559,7 +558,6 @@ class Nationality(Resource):
 
 
 class WorkShift(Resource):
-    @jwt_required
     def get(self):
         try:
             workshift = models.WorkShift()
@@ -578,7 +576,6 @@ class WorkShift(Resource):
 
 
 class Religion(Resource):
-    @jwt_required
     def get(self):
         try:
             religion = models.Religion()
@@ -597,7 +594,6 @@ class Religion(Resource):
 
 
 class Country(Resource):
-    @jwt_required
     def get(self):
         try:
             country = models.Country()
