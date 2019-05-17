@@ -3,7 +3,7 @@ from flask_jwt_extended import (create_access_token, create_refresh_token,
                                 jwt_required, jwt_refresh_token_required, get_jwt_identity, get_raw_jwt)
 import models
 from base64 import b64encode
-
+from aesb64 import encrypt
 
 class Login(Resource):
     def post(self):
@@ -576,6 +576,7 @@ class WorkShift(Resource):
             print(e)
             return {'message': 'Something went wrong'}, 500
 
+
 class Religion(Resource):
     @jwt_required
     def get(self):
@@ -593,6 +594,7 @@ class Religion(Resource):
         except Exception as e:
             print(e)
             return {'message': 'Something went wrong'}, 500
+
 
 class Country(Resource):
     @jwt_required
