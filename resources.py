@@ -85,9 +85,9 @@ class PersonalDetail(Resource):
             return {'message': 'Something went wrong'}, 500
 
 
-class PersonalDetailAttachment(Resource):
+class Attachment(Resource):
     def __init__(self):
-        self.screen = "personal"
+        self.screen = ""
 
     @jwt_required
     def get(self):
@@ -95,7 +95,7 @@ class PersonalDetailAttachment(Resource):
         attachment = models.Attachment(emp_number, self.screen)
         parser = reqparse.RequestParser()
         parser.add_argument(
-            'file_id', help='This field cannot be blank', required=True)
+            'file_id', help='This field cannot be blank', required=True, location='args')
         data = parser.parse_args()
         try:
             if data["file_id"] == "all":
@@ -197,8 +197,11 @@ class PersonalDetailAttachment(Resource):
         except:
             return {'message': 'Something went wrong'}, 500
 
+class PersonalDetailAttachment(Attachment):
+    def __init__(self):
+        self.screen = "personal"
 
-class ContactDetailAttachment(PersonalDetailAttachment):
+class ContactDetailAttachment(Attachment):
     def __init__(self):
         self.screen = "contact"
 
@@ -335,12 +338,12 @@ class EmergencyContact(Resource):
             return {'message': 'Something went wrong'}, 500
 
 
-class EmergencyContactAttachment(PersonalDetailAttachment):
+class EmergencyContactAttachment(Attachment):
     def __init__(self):
         self.screen = "emergency"
 
 
-class DependentAttachment(PersonalDetailAttachment):
+class DependentAttachment(Attachment):
     def __init__(self):
         self.screen = "dependent"
 
