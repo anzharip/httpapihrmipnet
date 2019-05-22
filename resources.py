@@ -106,7 +106,7 @@ class Attachment(Resource):
                             "file_id": str(attachment[1]),
                             "comment": attachment[2],
                             "file_name": attachment[3],
-                            "size": attachment[4],
+                            "size": str(attachment[4]),
                             "type": attachment[5],
                             "date_added": attachment[9],
                             "message": "File succesfully retrieved"
