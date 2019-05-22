@@ -80,7 +80,8 @@ class PersonalDetail(Resource):
         try:
             personal_detail = models.PersonalDetail(emp_number)
             return personal_detail.put(data)
-        except:
+        except Exception as e:
+            print(e)
             return {'message': 'Something went wrong'}, 500
 
 

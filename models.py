@@ -42,7 +42,7 @@ class PersonalDetail:
         self.emp_number = emp_number
 
     def get(self):
-        field = "A.`emp_firstname`, A.`emp_middle_name`, A.`emp_lastname`, A.`employee_id`, A.`emp_other_id`, A.`emp_dri_lice_num`, A.`emp_dri_lice_exp_date`, A.`emp_bpjs_no`, A.`emp_npwp_no`, A.`emp_bpjs_ket_no`, D.`name` AS `work_shift_id`, A.`emp_gender`, A.`emp_marital_status`, E.`name` AS `nation_code`, A.`emp_birthday`, B.`name` AS `emp_religion`, A.`emp_birth_place`"
+        field = "A.`emp_firstname`, A.`emp_middle_name`, A.`emp_lastname`, A.`employee_id`, A.`emp_other_id`, A.`emp_dri_lice_num`, A.`emp_dri_lice_exp_date`, A.`emp_bpjs_no`, A.`emp_npwp_no`, A.`emp_bpjs_ket_no`, D.`id` AS `work_shift_id`, A.`emp_gender`, A.`emp_marital_status`, E.`id` AS `nation_code`, A.`emp_birthday`, B.`id` AS `emp_religion`, A.`emp_birth_place`"
         table = "(((`hs_hr_employee` AS A JOIN `ohrm_religion` AS B ON A.`emp_religion`=B.`id`) JOIN `ohrm_employee_work_shift` AS C ON A.`emp_number`=C.`emp_number`) JOIN `ohrm_work_shift` AS D ON C.`work_shift_id`=D.`id`) JOIN `ohrm_nationality` AS E ON A.`nation_code`=E.`id`"
         sql_filter = "A.`emp_number` LIKE %s" % self.emp_number
         statement = "SELECT %s FROM %s WHERE %s LIMIT 0,1" % (
@@ -62,12 +62,12 @@ class PersonalDetail:
             "no_bpjs_kesehatan": result[7],
             "no_npwp": result[8],
             "no_bpjs_ketenagakerjaan": result[9],
-            "work_shift": result[10],
-            "gender": result[11],
+            "work_shift": str(result[10]),
+            "gender": str(result[11]),
             "marital_status": result[12],
-            "nationality": result[13],
+            "nationality": str(result[13]),
             "date_of_birth": result[14].isoformat(),
-            "religion": result[15],
+            "religion": str(result[15]),
             "place_of_birth": result[16],
             "message": "Personal detail retrieved succesfully"
         }
