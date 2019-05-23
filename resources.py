@@ -213,7 +213,7 @@ class EmergencyContact(Resource):
         emergency_contact = models.EmergencyContact(emp_number)
         parser = reqparse.RequestParser()
         parser.add_argument(
-            'emergencycontact_id', help='This field cannot be blank', required=True)
+            'emergencycontact_id', help='This field cannot be blank', required=True, location='args')
         data = parser.parse_args()
         try:
             if data["emergencycontact_id"] == "all":
@@ -320,7 +320,7 @@ class EmergencyContact(Resource):
         emp_number = get_raw_jwt()['identity']
         parser = reqparse.RequestParser()
         parser.add_argument(
-            'emergencycontact_id', help='This field cannot be blank', required=True)
+            'emergencycontact_id', help='This field cannot be blank', required=True, location='args')
         data = parser.parse_args()
         emergency_contact = models.EmergencyContact(emp_number)
         try:
