@@ -453,7 +453,8 @@ class Dependent(Resource):
                         "date_of_birth": result[5].isoformat(),
                         "message": "Dependent succesfully retrieved"
                     }
-        except:
+        except Exception as e:
+            print(e)
             return {'message': 'Something went wrong'}, 500
 
     @jwt_required
@@ -472,7 +473,8 @@ class Dependent(Resource):
         try:
             dependent = models.Dependent(emp_number)
             return dependent.post(data)
-        except:
+        except Exception as e:
+            print(e)
             return {'message': 'Something went wrong'}, 500
 
     @jwt_required
@@ -506,7 +508,8 @@ class Dependent(Resource):
                     "message": "Dependent succesfully updated"
                 }
                 return result
-        except:
+        except Exception as e:
+            print(e)
             return {'message': 'Something went wrong'}, 500
 
     @jwt_required
@@ -528,7 +531,8 @@ class Dependent(Resource):
                     "message": "Dependent succesfully deleted"
                 }
                 return result
-        except:
+        except Exception as e:
+            print(e)
             return {'message': 'Something went wrong'}, 500
 
 
