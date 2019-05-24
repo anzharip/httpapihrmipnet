@@ -5,6 +5,7 @@ import models
 from base64 import b64encode
 from aesb64 import encrypt
 
+
 class Login(Resource):
     def post(self):
         parser = reqparse.RequestParser()
@@ -30,7 +31,8 @@ class Login(Resource):
                 return {
                     "message": "Username & password does not match"
                 }, 400
-        except:
+        except Exception as e:
+            print(e)
             return {'message': 'Something went wrong'}, 500
 
 
@@ -40,8 +42,12 @@ class PersonalDetail(Resource):
         emp_number = get_raw_jwt()['identity']
         try:
             personal_detail = models.PersonalDetail(emp_number)
-            return personal_detail.get()
-        except:
+            return {
+                "data": personal_detail.get(),
+                "message": "Personal detail succesfully retrieved"
+            }
+        except Exception as e:
+            print(e)
             return {'message': 'Something went wrong'}, 500
 
     @jwt_required
@@ -79,7 +85,15 @@ class PersonalDetail(Resource):
         emp_number = get_raw_jwt()['identity']
         try:
             personal_detail = models.PersonalDetail(emp_number)
-            return personal_detail.put(data)
+            if personal_detail.put(data) == 0:
+                return {
+                    "message": "Personal detail not updated"
+                }
+            else:
+                result = {
+                    "message": "Personal detail succesfully updated"
+                }
+                return result
         except Exception as e:
             print(e)
             return {'message': 'Something went wrong'}, 500
@@ -108,11 +122,13 @@ class Attachment(Resource):
                             "file_name": attachment[3],
                             "size": str(attachment[4]),
                             "type": attachment[5],
-                            "date_added": attachment[9],
-                            "message": "File succesfully retrieved"
+                            "date_added": attachment[9]
                         }
                     )
-                return result
+                return {
+                    "data": result,
+                    "message": "Files succesfully retrieved"
+                }
             else:
                 result = attachment.get(data["file_id"])
                 if result is None:
@@ -121,16 +137,19 @@ class Attachment(Resource):
                     }, 400
                 else:
                     return {
-                        "file_id": result[1],
-                        "file": b64encode(result[5]).decode(),
-                        "comment": result[2],
-                        "file_name": result[3],
-                        "size": result[4],
-                        "type": result[6],
-                        "date_added": result[10],
+                        "data": {
+                            "file_id": result[1],
+                            "file": b64encode(result[5]).decode(),
+                            "comment": result[2],
+                            "file_name": result[3],
+                            "size": result[4],
+                            "type": result[6],
+                            "date_added": result[10]
+                        },
                         "message": "File succesfully retrieved"
                     }
-        except:
+        except Exception as e:
+            print(e)
             return {'message': 'Something went wrong'}, 500
 
     @jwt_required
@@ -146,8 +165,12 @@ class Attachment(Resource):
         data = parser.parse_args()
         try:
             attachment = models.Attachment(emp_number, self.screen)
-            return attachment.post(data)
-        except:
+            return {
+                "data": attachment.post(data),
+                "message": "File succesfully created"
+            }
+        except Exception as e:
+            print(e)
             return {'message': 'Something went wrong'}, 500
 
     @jwt_required
@@ -172,7 +195,8 @@ class Attachment(Resource):
                     "message": "Comment succesfully updated"
                 }
                 return result
-        except:
+        except Exception as e:
+            print(e)
             return {'message': 'Something went wrong'}, 500
 
     @jwt_required
@@ -190,16 +214,20 @@ class Attachment(Resource):
                 }, 400
             else:
                 result = {
-                    "file_id": data['file_id'],
+                    "data": {
+                        "file_id": data['file_id']
+                    },
                     "message": "File succesfully deleted"
                 }
                 return result
         except:
             return {'message': 'Something went wrong'}, 500
 
+
 class PersonalDetailAttachment(Attachment):
     def __init__(self):
         self.screen = "personal"
+
 
 class ContactDetailAttachment(Attachment):
     def __init__(self):
@@ -227,11 +255,13 @@ class EmergencyContact(Resource):
                             "mobile": emergency_contact[5],
                             "home_telephone": emergency_contact[4],
                             "work_telephone": emergency_contact[6],
-                            "address": emergency_contact[7],
-                            "message": "Emergency contact succesfully retrieved"
+                            "address": emergency_contact[7]
                         }
                     )
-                return result
+                return {
+                    "data": result,
+                    "message": "Emergency contact succesfully retrieved"
+                }
             else:
                 result = emergency_contact.get(data["emergencycontact_id"])
                 if result is None:
@@ -240,13 +270,15 @@ class EmergencyContact(Resource):
                     }, 400
                 else:
                     return {
-                        "emergencycontact_id": str(result[1]),
-                        "name": result[2],
-                        "relationship": result[3],
-                        "mobile": result[5],
-                        "home_telephone": result[4],
-                        "work_telephone": result[6],
-                        "address": result[7],
+                        "data": {
+                            "emergencycontact_id": str(result[1]),
+                            "name": result[2],
+                            "relationship": result[3],
+                            "mobile": result[5],
+                            "home_telephone": result[4],
+                            "work_telephone": result[6],
+                            "address": result[7]
+                        },
                         "message": "Emergency contact succesfully retrieved"
                     }
         except:
@@ -271,7 +303,10 @@ class EmergencyContact(Resource):
         data = parser.parse_args()
         try:
             emergency_contact = models.EmergencyContact(emp_number)
-            return emergency_contact.post(data)
+            return {
+                "data": emergency_contact.post(data),
+                "message": "Emergency contact succesfully created"
+            }
         except:
             return {'message': 'Something went wrong'}, 500
 
@@ -302,13 +337,15 @@ class EmergencyContact(Resource):
                 }, 400
             else:
                 result = {
-                    "emergencycontact_id": data["emergencycontact_id"],
-                    "name": data["name"],
-                    "relationship": data["relationship"],
-                    "mobile": data["mobile"],
-                    "home_telephone": data["home_telephone"],
-                    "work_telephone": data["work_telephone"],
-                    "address": data["address"],
+                    "data": {
+                        "emergencycontact_id": data["emergencycontact_id"],
+                        "name": data["name"],
+                        "relationship": data["relationship"],
+                        "mobile": data["mobile"],
+                        "home_telephone": data["home_telephone"],
+                        "work_telephone": data["work_telephone"],
+                        "address": data["address"]
+                    },
                     "message": "Emergency Contact succesfully updated"
                 }
                 return result
@@ -330,7 +367,9 @@ class EmergencyContact(Resource):
                 }, 400
             else:
                 result = {
-                    "emergencycontact_id": data['emergencycontact_id'],
+                    "data": {
+                        "emergencycontact_id": data['emergencycontact_id']
+                    },
                     "message": "Emergency Contact succesfully deleted"
                 }
                 return result
@@ -356,17 +395,19 @@ class ContactDetail(Resource):
         try:
             data = contact_detail.get()
             return {
-                "address_street_1": data[1],
-                "address_street_2": data[2],
-                "city": data[3],
-                "state_province": data[4],
-                "zip_postal_code": data[5],
-                "country": data[6],
-                "home_telephone": data[7],
-                "mobile": data[8],
-                "work_telephone": data[9],
-                "work_email": data[10],
-                "other_email": data[11],
+                "data": {
+                    "address_street_1": data[1],
+                    "address_street_2": data[2],
+                    "city": data[3],
+                    "state_province": data[4],
+                    "zip_postal_code": data[5],
+                    "country": data[6],
+                    "home_telephone": data[7],
+                    "mobile": data[8],
+                    "work_telephone": data[9],
+                    "work_email": data[10],
+                    "other_email": data[11]
+                },
                 "message": "Contact detail retrieved succesfully"
             }
         except:
@@ -433,11 +474,13 @@ class Dependent(Resource):
                             "name": dependent[2],
                             "relationship": dependent[3],
                             "gender": str(dependent[6]),
-                            "date_of_birth": dependent[5].isoformat(),
-                            "message": "Dependent succesfully retrieved"
+                            "date_of_birth": dependent[5].isoformat()
                         }
                     )
-                return result
+                return {
+                    "data": result,
+                    "message": "Dependent succesfully retrieved"
+                }
             else:
                 result = dependent.get(data["dependent_id"])
                 if result is None:
@@ -446,11 +489,13 @@ class Dependent(Resource):
                     }, 400
                 else:
                     return {
-                        "dependent_id": str(result[1]),
-                        "name": result[2],
-                        "relationship": result[3],
-                        "gender": result[6],
-                        "date_of_birth": result[5].isoformat(),
+                        "data": {
+                            "dependent_id": str(result[1]),
+                            "name": result[2],
+                            "relationship": result[3],
+                            "gender": result[6],
+                            "date_of_birth": result[5].isoformat()
+                        },
                         "message": "Dependent succesfully retrieved"
                     }
         except Exception as e:
@@ -472,7 +517,10 @@ class Dependent(Resource):
         data = parser.parse_args()
         try:
             dependent = models.Dependent(emp_number)
-            return dependent.post(data)
+            return {
+                "data": dependent.post(data),
+                "message": "Dependent succesfully created"
+            }
         except Exception as e:
             print(e)
             return {'message': 'Something went wrong'}, 500
@@ -500,11 +548,13 @@ class Dependent(Resource):
                 }, 400
             else:
                 result = {
-                    "dependent_id": str(data["dependent_id"]),
-                    "name": data["name"],
-                    "relationship": data["relationship"],
-                    "gender": str(data["gender"]),
-                    "date_of_birth": data["date_of_birth"],
+                    "data": {
+                        "dependent_id": str(data["dependent_id"]),
+                        "name": data["name"],
+                        "relationship": data["relationship"],
+                        "gender": str(data["gender"]),
+                        "date_of_birth": data["date_of_birth"]
+                    },
                     "message": "Dependent succesfully updated"
                 }
                 return result
@@ -527,7 +577,9 @@ class Dependent(Resource):
                 }, 400
             else:
                 result = {
-                    "dependent_id": str(data['dependent_id']),
+                    "data": {
+                        "dependent_id": str(data['dependent_id'])
+                    },
                     "message": "Dependent succesfully deleted"
                 }
                 return result
@@ -542,7 +594,10 @@ class Job(Resource):
         emp_number = get_raw_jwt()['identity']
         try:
             job = models.Job(emp_number)
-            return job.get()
+            return {
+                "data": job.get(),
+                "message": "Job succesfully retrieved"
+            }
         except:
             return {'message': 'Something went wrong'}, 500
 
@@ -559,7 +614,10 @@ class Nationality(Resource):
                         "nation_name": nationality[1]
                     }
                 )
-            return result
+            return {
+                "data": result,
+                "message": "Nationality successfully retrieved"
+            }
         except Exception as e:
             print(e)
             return {'message': 'Something went wrong'}, 500
@@ -577,7 +635,10 @@ class WorkShift(Resource):
                         "workshift_name": workshift[1]
                     }
                 )
-            return result
+            return {
+                "data": result,
+                "message": "Workshift successfully retrieved"
+            }
         except Exception as e:
             print(e)
             return {'message': 'Something went wrong'}, 500
@@ -595,7 +656,10 @@ class Religion(Resource):
                         "religion_name": religion[1]
                     }
                 )
-            return result
+            return {
+                "data": result,
+                "message": "Religion successfully retrieved"
+            }
         except Exception as e:
             print(e)
             return {'message': 'Something went wrong'}, 500
@@ -613,7 +677,10 @@ class Country(Resource):
                         "country_name": country[1]
                     }
                 )
-            return result
+            return {
+                "data": result,
+                "message": "Country successfully retrieved"
+            }
         except Exception as e:
             print(e)
             return {'message': 'Something went wrong'}, 500

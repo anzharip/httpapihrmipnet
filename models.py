@@ -68,8 +68,7 @@ class PersonalDetail:
             "nationality": str(result[13]),
             "date_of_birth": result[14].isoformat(),
             "religion": str(result[15]),
-            "place_of_birth": result[16],
-            "message": "Personal detail retrieved succesfully"
+            "place_of_birth": result[16]
         }
         return result
 
@@ -84,9 +83,7 @@ class PersonalDetail:
         cursor = db.sql_cursor(connection, statement)
         connection.commit()
         db.close_connection(cursor, connection)
-        result = {
-            "message": "Personal detail succesfully updated"
-        }
+        result = cursor.rowcount
         return result
 
 
@@ -175,8 +172,7 @@ class Attachment:
             "file_name": eattach_filename,
             "size": eattach_size,
             "type": eattach_type,
-            "date_added": self.get_meta(eattach_id)[9],
-            "message": "File succesfully created"
+            "date_added": self.get_meta(eattach_id)[9]
         }
         return result
 
@@ -290,8 +286,7 @@ class EmergencyContact:
             "mobile": body["mobile"],
             "home_telephone": body["home_telephone"],
             "work_telephone": body["work_telephone"],
-            "address": body["address"],
-            "message": "Emergency contact succesfully created"
+            "address": body["address"]
         }
         return result
 
@@ -385,8 +380,7 @@ class Dependent:
             "name": body["name"],
             "relationship": body["relationship"],
             "gender": body["gender"],
-            "date_of_birth": body["date_of_birth"],
-            "message": "Dependent succesfully created"
+            "date_of_birth": body["date_of_birth"]
         }
         return result
 
