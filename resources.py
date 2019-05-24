@@ -220,7 +220,8 @@ class Attachment(Resource):
                     "message": "File succesfully deleted"
                 }
                 return result
-        except:
+        except Exception as e:
+            print(e)
             return {'message': 'Something went wrong'}, 500
 
 
@@ -281,7 +282,8 @@ class EmergencyContact(Resource):
                         },
                         "message": "Emergency contact succesfully retrieved"
                     }
-        except:
+        except Exception as e:
+            print(e)
             return {'message': 'Something went wrong'}, 500
 
     @jwt_required
@@ -307,7 +309,8 @@ class EmergencyContact(Resource):
                 "data": emergency_contact.post(data),
                 "message": "Emergency contact succesfully created"
             }
-        except:
+        except Exception as e:
+            print(e)
             return {'message': 'Something went wrong'}, 500
 
     @jwt_required
@@ -349,7 +352,8 @@ class EmergencyContact(Resource):
                     "message": "Emergency Contact succesfully updated"
                 }
                 return result
-        except:
+        except Exception as e:
+            print(e)
             return {'message': 'Something went wrong'}, 500
 
     @jwt_required
@@ -373,7 +377,8 @@ class EmergencyContact(Resource):
                     "message": "Emergency Contact succesfully deleted"
                 }
                 return result
-        except:
+        except Exception as e:
+            print(e)
             return {'message': 'Something went wrong'}, 500
 
 
@@ -410,7 +415,8 @@ class ContactDetail(Resource):
                 },
                 "message": "Contact detail retrieved succesfully"
             }
-        except:
+        except Exception as e:
+            print(e)
             return {'message': 'Something went wrong'}, 500
 
     @jwt_required
@@ -451,7 +457,8 @@ class ContactDetail(Resource):
                 return {
                     "message": "Contact detail successfully updated"
                 }
-        except:
+        except Exception as e:
+            print(e)
             return {'message': 'Something went wrong'}, 500
 
 
@@ -598,7 +605,8 @@ class Job(Resource):
                 "data": job.get(),
                 "message": "Job succesfully retrieved"
             }
-        except:
+        except Exception as e:
+            print(e)
             return {'message': 'Something went wrong'}, 500
 
 
