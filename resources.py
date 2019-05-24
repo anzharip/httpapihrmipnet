@@ -87,7 +87,7 @@ class PersonalDetail(Resource):
             personal_detail = models.PersonalDetail(emp_number)
             if personal_detail.put(data) == 0:
                 return {
-                    "message": "Personal detail not updated"
+                    "message": "Personal detail not updated, no change found on submitted data"
                 }
             else:
                 result = {
@@ -109,7 +109,7 @@ class Attachment(Resource):
         attachment = models.Attachment(emp_number, self.screen)
         parser = reqparse.RequestParser()
         parser.add_argument(
-            'file_id', help='This field cannot be blank', required=True, location='args')
+            'file_id', help='This field cannot be blank', required=True)
         data = parser.parse_args()
         try:
             if data["file_id"] == "all":
@@ -186,7 +186,7 @@ class Attachment(Resource):
         try:
             if attachment.put_comment(data) == 0:
                 return {
-                    "message": "Comment not updated or no file_id found"
+                    "message": "Comment not updated, no change found on submitted data or no file_id found"
                 }
             else:
                 result = {
@@ -242,7 +242,7 @@ class EmergencyContact(Resource):
         emergency_contact = models.EmergencyContact(emp_number)
         parser = reqparse.RequestParser()
         parser.add_argument(
-            'emergencycontact_id', help='This field cannot be blank', required=True, location='args')
+            'emergencycontact_id', help='This field cannot be blank', required=True)
         data = parser.parse_args()
         try:
             if data["emergencycontact_id"] == "all":
@@ -336,7 +336,7 @@ class EmergencyContact(Resource):
         try:
             if emergency_contact.put(data) == 0:
                 return {
-                    "message": "Emergency Contact not updated or no emergencycontact_id found"
+                    "message": "Emergency Contact not updated, no change found on submitted data or no emergencycontact_id found"
                 }, 400
             else:
                 result = {
@@ -361,7 +361,7 @@ class EmergencyContact(Resource):
         emp_number = get_raw_jwt()['identity']
         parser = reqparse.RequestParser()
         parser.add_argument(
-            'emergencycontact_id', help='This field cannot be blank', required=True, location='args')
+            'emergencycontact_id', help='This field cannot be blank', required=True)
         data = parser.parse_args()
         emergency_contact = models.EmergencyContact(emp_number)
         try:
@@ -451,7 +451,7 @@ class ContactDetail(Resource):
             result = contact_detail.put(data)
             if result == 0:
                 return {
-                    "message": "Contact detail not updated"
+                    "message": "Contact detail not updated, no change found on submitted data"
                 }, 400
             else:
                 return {
@@ -551,7 +551,7 @@ class Dependent(Resource):
         try:
             if dependent.put(data) == 0:
                 return {
-                    "message": "Dependent not updated or no dependent_id found"
+                    "message": "Dependent not updated, no change found on submitted data or no dependent_id found"
                 }, 400
             else:
                 result = {
