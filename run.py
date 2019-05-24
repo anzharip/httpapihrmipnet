@@ -61,6 +61,7 @@ def my_user_loader_error_loader(identity):
     }), 401
 
 
+app.config['PROPAGATE_EXCEPTIONS'] = True
 app.config['SECRET_KEY'] = config.SECRET_KEY
 app.config['JWT_SECRET_KEY'] = config.JWT_SECRET_KEY
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = config.JWT_ACCESS_TOKEN_EXPIRES
