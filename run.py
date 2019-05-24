@@ -22,14 +22,14 @@ def my_claims_verification_failed_loader():
 def my_expired_token_loader(expired_token):
     return jsonify({
         'status': 401,
-        'message': 'Token has expired'
+        'message': 'Token has expired, please re-login'
     }), 401
 
 @jwt.invalid_token_loader
 def my_invalid_token_loader(error_description):
     return jsonify({
         'status': 422,
-        'message': error_description
+        'message': "%s, try logging in again" % error_description
     }), 422
 
 @jwt.needs_fresh_token_loader
