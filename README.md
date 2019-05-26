@@ -28,7 +28,7 @@ source env/bin/activate
 
 6. Run the app. 
 
-```gunicorn --bind 0.0.0.0:5000 wsgi:app```
+```./env/bin/gunicorn --bind 0.0.0.0:5000 wsgi:app```
 
 # config.py Example
 
