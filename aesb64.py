@@ -14,9 +14,7 @@ class AESData:
         key = b64decode(self.b64key)
         aes = pyaes.AESModeOfOperationCTR(key)
         ciphertext = aes.encrypt(json.dumps(self.data))
-        return {
-            "cipher": b64encode(ciphertext).decode("utf-8")
-        }
+        return b64encode(ciphertext).decode("utf-8")
 
 # b64key is 32 bytes encoded in base64
 # b64cipher is b64 encoded cipher bytes
@@ -29,9 +27,7 @@ class AESCipher:
         key = b64decode(self.b64key)
         aes = pyaes.AESModeOfOperationCTR(key)
         data = aes.decrypt(cipher)
-        return {
-            "data": data
-        }
+        return data
 
 # used for decorator function 
 class encrypt(object):
