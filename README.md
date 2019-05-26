@@ -6,21 +6,27 @@ HTTP REST API PoC for HRM IPNet written in Python 3.
 
 ```git clone https://github.com/anzharip/httpapihrmipnet.git```
 
-2. Enter the directory, create virtual env. 
+2. Enter the directory, create virtual environment. 
 
 ```cd httpapihrmipnet```
 
-```python3 -m venv ./```
+```python3 -m venv env```
 
-3. Install dependencies. 
+3. Activate virtual environment. 
+
+```
+source env/bin/activate
+```
+
+4. Install dependencies. 
 
 ```python3 -m pip install -r requirements.txt```
 
-4. Configure the DB connection. 
+5. Configure the DB connection. 
 
 ```vi config.py```
 
-5. Run the app. 
+6. Run the app. 
 
 ```gunicorn --bind 0.0.0.0:5000 wsgi:app```
 
