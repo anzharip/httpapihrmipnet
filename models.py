@@ -51,6 +51,10 @@ class PersonalDetail:
         cursor = db.sql_cursor(connection, statement)
         result = cursor.fetchone()
         db.close_connection(connection, cursor)
+        if result[6].isoformat() is False: 
+            license_expiry_date = "0000-00-00"
+        else: 
+            license_expiry_date = result[6].isoformat()
         result = {
             "first_name": result[0],
             "middle_name": result[1],
@@ -58,8 +62,8 @@ class PersonalDetail:
             "employee_id": result[3],
             "no_ktp": result[4],
             "drivers_license_number": result[5],
-            "license_expiry_date": result[6].isoformat(),
-            # "license_expiry_date": result[6],
+            # "license_expiry_date": result[6].isoformat(),
+            "license_expiry_date": license_expiry_date,
             "no_bpjs_kesehatan": result[7],
             "no_npwp": result[8],
             "no_bpjs_ketenagakerjaan": result[9],
