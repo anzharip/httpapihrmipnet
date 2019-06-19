@@ -3,6 +3,7 @@ import bcrypt
 from time import time
 from mimetypes import guess_type
 from base64 import b64decode
+import datetime
 
 
 class User:
@@ -51,10 +52,10 @@ class PersonalDetail:
         cursor = db.sql_cursor(connection, statement)
         result = cursor.fetchone()
         db.close_connection(connection, cursor)
-        if result[6] is None: 
-            license_expiry_date = "0000-00-00"
-        else: 
+        if isinstance(result[6], datetime.datetime): 
             license_expiry_date = result[6].isoformat()
+        else: 
+            license_expiry_date = "0000-00-00" 
         result = {
             "first_name": result[0],
             "middle_name": result[1],
