@@ -55,7 +55,7 @@ class PersonalDetail:
         if isinstance(result[6], datetime.datetime): 
             license_expiry_date = result[6].isoformat()
         else: 
-            license_expiry_date = "0000-00-00" 
+            license_expiry_date = "" 
         result = {
             "first_name": result[0],
             "middle_name": result[1],
