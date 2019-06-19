@@ -51,7 +51,7 @@ class PersonalDetail:
         cursor = db.sql_cursor(connection, statement)
         result = cursor.fetchone()
         db.close_connection(connection, cursor)
-        if result[6].isoformat() is False: 
+        if result[6] is None: 
             license_expiry_date = "0000-00-00"
         else: 
             license_expiry_date = result[6].isoformat()
