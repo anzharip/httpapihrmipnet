@@ -3,7 +3,6 @@ from flask_jwt_extended import (create_access_token, create_refresh_token,
                                 jwt_required, jwt_refresh_token_required, get_jwt_identity, get_raw_jwt)
 import models
 from base64 import b64encode
-from aesb64 import encrypt
 
 
 class Login(Resource):
@@ -228,6 +227,7 @@ class Attachment(Resource):
 class PersonalDetailAttachment(Attachment):
     def __init__(self):
         self.screen = "personal"
+
 
 class Nationality(Resource):
     def get(self):

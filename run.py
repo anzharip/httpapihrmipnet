@@ -6,7 +6,6 @@ import models
 import resources
 import config
 import json
-from aesb64 import encrypt, AESData
 
 app = Flask(__name__)
 CORS(app)
@@ -68,20 +67,6 @@ def my_user_loader_error_loader(identity):
         'status': 401,
         'message': 'Error loading the user %s' % identity
     }), 401
-
-
-@api.representation('application/json')
-def encrypt_output_json(data, code, headers=None):
-    if "data" in data:
-        aesdata = AESData(config.B64KEY, data["data"])
-        data = {
-            "data": aesdata.encrypt(),
-            "message": data["message"]
-        }
-    resp = make_response(json.dumps(data), code)
-    resp.headers.extend(headers or {})
-    return resp
-
 
 app.config['PROPAGATE_EXCEPTIONS'] = True
 app.config['SECRET_KEY'] = config.SECRET_KEY
