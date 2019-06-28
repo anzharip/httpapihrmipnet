@@ -108,7 +108,7 @@ class Attachment(Resource):
         attachment = models.Attachment(emp_number, self.screen)
         parser = reqparse.RequestParser()
         parser.add_argument(
-            'file_id', help='This field cannot be blank', required=True)
+            'file_id', help='This field cannot be blank', required=True, location=["form", "args"])
         data = parser.parse_args()
         try:
             if data["file_id"] == "all":

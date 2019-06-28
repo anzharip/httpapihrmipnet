@@ -23,7 +23,174 @@
     <select />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-221">
+              <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="402">
+              <caret line="271" lean-forward="true" selection-start-line="271" selection-end-line="271" />
+              <folding>
+                <element signature="e#0#44#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="uml://Python/#/Users/anzhari/GitRepo/httpapihrmipnet/models.py">
+          <provider selected="true" editor-type-id="UmlEditorProvider">
+            <state>
+              <ID>Python</ID>
+              <OriginalElement>#/Users/anzhari/GitRepo/httpapihrmipnet/models.py</OriginalElement>
+              <nodes>
+                <node x="0.0" y="637.5">models.Religion</node>
+                <node x="636.0" y="637.5">models.WorkShift</node>
+                <node x="798.0" y="637.5">models.Nationality</node>
+                <node x="477.99999999999994" y="0.0">object</node>
+                <node x="155.0" y="549.0">models.Attachment</node>
+                <node x="420.0" y="604.0">models.PersonalDetail</node>
+                <node x="974.0" y="593.0">models.User</node>
+              </nodes>
+              <notes />
+              <edges>
+                <edge source="models.WorkShift" target="object">
+                  <point x="0.0" y="-24.0" />
+                  <point x="707.0" y="529.0" />
+                  <point x="634.9166666666667" y="529.0" />
+                  <point x="22.416666666666742" y="244.5" />
+                </edge>
+                <edge source="models.PersonalDetail" target="object">
+                  <point x="0.0" y="-57.5" />
+                  <point x="518.0" y="529.0" />
+                  <point x="590.0833333333333" y="529.0" />
+                  <point x="-22.41666666666663" y="244.5" />
+                </edge>
+                <edge source="models.Religion" target="object">
+                  <point x="0.0" y="-24.0" />
+                  <point x="67.5" y="509.0" />
+                  <point x="500.4166666666666" y="509.0" />
+                  <point x="-112.08333333333337" y="244.5" />
+                </edge>
+                <edge source="models.Nationality" target="object">
+                  <point x="0.0" y="-24.0" />
+                  <point x="876.0" y="519.0" />
+                  <point x="679.75" y="519.0" />
+                  <point x="67.25" y="244.5" />
+                </edge>
+                <edge source="models.User" target="object">
+                  <point x="0.0" y="-68.5" />
+                  <point x="1096.5" y="509.0" />
+                  <point x="724.5833333333333" y="509.0" />
+                  <point x="112.08333333333337" y="244.5" />
+                </edge>
+                <edge source="models.Attachment" target="object">
+                  <point x="0.0" y="-112.5" />
+                  <point x="277.5" y="519.0" />
+                  <point x="545.25" y="519.0" />
+                  <point x="-67.25" y="244.5" />
+                </edge>
+              </edges>
+              <settings layout="Hierarchic Group" zoom="1.0" x="140.5" y="225.5" />
+              <SelectedNodes />
+              <Categories>
+                <Category>Methods</Category>
+                <Category>Inner Classes</Category>
+                <Category>Fields</Category>
+              </Categories>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="uml://Python/#/Users/anzhari/GitRepo/httpapihrmipnet/resources.py">
+          <provider selected="true" editor-type-id="UmlEditorProvider">
+            <state>
+              <ID>Python</ID>
+              <OriginalElement>#/Users/anzhari/GitRepo/httpapihrmipnet/resources.py</OriginalElement>
+              <nodes>
+                <node x="486.25" y="98.0">flask_restful.Resource</node>
+                <node x="633.0" y="306.5">resources.WorkShift</node>
+                <node x="239.0" y="295.5">resources.PersonalDetail</node>
+                <node x="816.0" y="306.5">resources.Login</node>
+                <node x="486.25" y="0.0">flask.views.MethodView</node>
+                <node x="971.0" y="306.5">resources.Nationality</node>
+                <node x="49.0" y="251.0">resources.Attachment</node>
+                <node x="0.0" y="460.0">resources.PersonalDetailAttachment</node>
+                <node x="457.0" y="306.5">resources.Religion</node>
+              </nodes>
+              <notes />
+              <edges>
+                <edge source="flask_restful.Resource" target="flask.views.MethodView">
+                  <point x="0.0" y="-46.5" />
+                  <point x="0.0" y="24.0" />
+                </edge>
+                <edge source="resources.Nationality" target="flask_restful.Resource">
+                  <point x="0.0" y="-24.0" />
+                  <point x="1059.5" y="211.0" />
+                  <point x="740.1666666666666" y="211.0" />
+                  <point x="115.41666666666663" y="46.5" />
+                </edge>
+                <edge source="resources.Religion" target="flask_restful.Resource">
+                  <point x="0.0" y="-24.0" />
+                  <point x="535.0" y="231.0" />
+                  <point x="601.6666666666666" y="231.0" />
+                  <point x="-23.08333333333337" y="46.5" />
+                </edge>
+                <edge source="resources.WorkShift" target="flask_restful.Resource">
+                  <point x="0.0" y="-24.0" />
+                  <point x="714.5" y="231.0" />
+                  <point x="647.8333333333333" y="231.0" />
+                  <point x="23.083333333333258" y="46.5" />
+                </edge>
+                <edge source="resources.Login" target="flask_restful.Resource">
+                  <point x="0.0" y="-24.0" />
+                  <point x="883.5" y="221.0" />
+                  <point x="694.0" y="221.0" />
+                  <point x="69.25" y="46.5" />
+                </edge>
+                <edge source="resources.PersonalDetail" target="flask_restful.Resource">
+                  <point x="0.0" y="-35.0" />
+                  <point x="338.0" y="221.0" />
+                  <point x="555.5" y="221.0" />
+                  <point x="-69.25" y="46.5" />
+                </edge>
+                <edge source="resources.Attachment" target="flask_restful.Resource">
+                  <point x="0.0" y="-79.5" />
+                  <point x="134.0" y="211.0" />
+                  <point x="509.33333333333337" y="211.0" />
+                  <point x="-115.41666666666663" y="46.5" />
+                </edge>
+                <edge source="resources.PersonalDetailAttachment" target="resources.Attachment">
+                  <point x="0.0" y="-35.5" />
+                  <point x="0.0" y="79.5" />
+                </edge>
+              </edges>
+              <settings layout="Hierarchic Group" zoom="1.0" x="574.0" y="265.5" />
+              <SelectedNodes>
+                <node>flask_restful.Resource</node>
+              </SelectedNodes>
+              <Categories>
+                <Category>Methods</Category>
+                <Category>Inner Classes</Category>
+                <Category>Fields</Category>
+              </Categories>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -142,16 +309,18 @@
       <workItem from="1557904962706" duration="610000" />
       <workItem from="1558326196546" duration="4000" />
       <workItem from="1558927083338" duration="410000" />
+      <workItem from="1561474518249" duration="447000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3018000" />
+    <option name="totallyTimeSpent" value="3465000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1680" height="941" extended-state="6" />
+    <frame x="0" y="23" width="1680" height="949" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13308914" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13431014" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -162,7 +331,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32905483" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.32883435" />
@@ -179,6 +348,32 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/httpapihrmipnet$Flask__run_py_.coverage" NAME="Flask (run.py) Coverage Results" MODIFIED="1557905648762" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
@@ -193,9 +388,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/config.py" />
     <entry file="uml://Python/resources.Login">
       <provider selected="true" editor-type-id="UmlEditorProvider">
         <state>
@@ -292,26 +485,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="295">
-          <caret line="640" column="20" selection-start-line="640" selection-start-column="20" selection-end-line="640" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#44#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="7" column="9" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="9" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="uml://Python/#/Users/anzhari/GitRepo/httpapihrmipnet/wsgi.py">
       <provider selected="true" editor-type-id="UmlEditorProvider">
         <state>
@@ -320,13 +493,14 @@
           <nodes />
           <notes />
           <edges />
-          <settings layout="Hierarchic Group" zoom="0.819722573140377" x="769.1466979980469" y="397.92015838623047" />
+          <settings layout="Hierarchic Group" zoom="0.819722573140377" x="769.0" y="398.0" />
           <SelectedNodes />
           <Categories>
             <Category>Methods</Category>
             <Category>Inner Classes</Category>
             <Category>Fields</Category>
           </Categories>
+          <SCOPE>All</SCOPE>
         </state>
       </provider>
     </entry>
@@ -338,80 +512,14 @@
           <nodes />
           <notes />
           <edges />
-          <settings layout="Hierarchic Group" zoom="1.0" x="710.0" y="397.5" />
+          <settings layout="Hierarchic Group" zoom="1.0" x="710.0" y="398.0" />
           <SelectedNodes />
           <Categories>
             <Category>Methods</Category>
             <Category>Inner Classes</Category>
             <Category>Fields</Category>
           </Categories>
-        </state>
-      </provider>
-    </entry>
-    <entry file="uml://Python/#/Users/anzhari/GitRepo/httpapihrmipnet/resources.py">
-      <provider selected="true" editor-type-id="UmlEditorProvider">
-        <state>
-          <ID>Python</ID>
-          <OriginalElement>#/Users/anzhari/GitRepo/httpapihrmipnet/resources.py</OriginalElement>
-          <nodes>
-            <node x="" y="">resources.PersonalDetail</node>
-            <node x="" y="">resources.EmergencyContactAttachment</node>
-            <node x="" y="">resources.ContactDetailAttachment</node>
-            <node x="" y="">resources.Religion</node>
-            <node x="" y="">resources.PersonalDetailAttachment</node>
-            <node x="" y="">resources.Country</node>
-            <node x="" y="">resources.Job</node>
-            <node x="" y="">resources.ContactDetail</node>
-            <node x="" y="">flask.views.MethodView</node>
-            <node x="" y="">resources.Login</node>
-            <node x="" y="">resources.Nationality</node>
-            <node x="" y="">resources.DependentAttachment</node>
-            <node x="" y="">resources.Attachment</node>
-            <node x="" y="">resources.EmergencyContact</node>
-            <node x="" y="">resources.Dependent</node>
-            <node x="" y="">flask_restful.Resource</node>
-            <node x="" y="">resources.WorkShift</node>
-          </nodes>
-          <notes />
-          <edges />
-          <settings layout="Hierarchic Group" zoom="0.7763537237259066" x="1930.5315830940317" y="394.0088792674334" />
-          <SelectedNodes />
-          <Categories>
-            <Category>Methods</Category>
-            <Category>Inner Classes</Category>
-            <Category>Fields</Category>
-          </Categories>
-        </state>
-      </provider>
-    </entry>
-    <entry file="uml://Python/#/Users/anzhari/GitRepo/httpapihrmipnet/models.py">
-      <provider selected="true" editor-type-id="UmlEditorProvider">
-        <state>
-          <ID>Python</ID>
-          <OriginalElement>#/Users/anzhari/GitRepo/httpapihrmipnet/models.py</OriginalElement>
-          <nodes>
-            <node x="" y="">models.Religion</node>
-            <node x="" y="">models.WorkShift</node>
-            <node x="" y="">models.Country</node>
-            <node x="" y="">models.ContactDetail</node>
-            <node x="" y="">models.Nationality</node>
-            <node x="" y="">models.EmergencyContact</node>
-            <node x="" y="">models.Attachment</node>
-            <node x="" y="">models.Job</node>
-            <node x="" y="">models.Dependent</node>
-            <node x="" y="">models.User</node>
-            <node x="" y="">object</node>
-            <node x="" y="">models.PersonalDetail</node>
-          </nodes>
-          <notes />
-          <edges />
-          <settings layout="Hierarchic Group" zoom="0.6726205817606578" x="2195.5728136381103" y="570.9721034100687" />
-          <SelectedNodes />
-          <Categories>
-            <Category>Methods</Category>
-            <Category>Inner Classes</Category>
-            <Category>Fields</Category>
-          </Categories>
+          <SCOPE>All</SCOPE>
         </state>
       </provider>
     </entry>
@@ -423,13 +531,14 @@
           <nodes />
           <notes />
           <edges />
-          <settings layout="Hierarchic Group" zoom="1.0" x="710.0" y="397.5" />
+          <settings layout="Hierarchic Group" zoom="1.0" x="710.0" y="398.0" />
           <SelectedNodes />
           <Categories>
             <Category>Methods</Category>
             <Category>Inner Classes</Category>
             <Category>Fields</Category>
           </Categories>
+          <SCOPE>All</SCOPE>
         </state>
       </provider>
     </entry>
@@ -446,8 +555,167 @@
           </nodes>
           <notes />
           <edges />
-          <settings layout="Hierarchic Group" zoom="1.0" x="653.5" y="325.5" />
+          <settings layout="Hierarchic Group" zoom="1.0" x="654.0" y="326.0" />
           <SelectedNodes />
+          <Categories>
+            <Category>Methods</Category>
+            <Category>Inner Classes</Category>
+            <Category>Fields</Category>
+          </Categories>
+          <SCOPE>All</SCOPE>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-221">
+          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="402">
+          <caret line="271" lean-forward="true" selection-start-line="271" selection-end-line="271" />
+          <folding>
+            <element signature="e#0#44#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="uml://Python/#/Users/anzhari/GitRepo/httpapihrmipnet/models.py">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>Python</ID>
+          <OriginalElement>#/Users/anzhari/GitRepo/httpapihrmipnet/models.py</OriginalElement>
+          <nodes>
+            <node x="0.0" y="637.5">models.Religion</node>
+            <node x="636.0" y="637.5">models.WorkShift</node>
+            <node x="798.0" y="637.5">models.Nationality</node>
+            <node x="477.99999999999994" y="0.0">object</node>
+            <node x="155.0" y="549.0">models.Attachment</node>
+            <node x="420.0" y="604.0">models.PersonalDetail</node>
+            <node x="974.0" y="593.0">models.User</node>
+          </nodes>
+          <notes />
+          <edges>
+            <edge source="models.WorkShift" target="object">
+              <point x="0.0" y="-24.0" />
+              <point x="707.0" y="529.0" />
+              <point x="634.9166666666667" y="529.0" />
+              <point x="22.416666666666742" y="244.5" />
+            </edge>
+            <edge source="models.PersonalDetail" target="object">
+              <point x="0.0" y="-57.5" />
+              <point x="518.0" y="529.0" />
+              <point x="590.0833333333333" y="529.0" />
+              <point x="-22.41666666666663" y="244.5" />
+            </edge>
+            <edge source="models.Religion" target="object">
+              <point x="0.0" y="-24.0" />
+              <point x="67.5" y="509.0" />
+              <point x="500.4166666666666" y="509.0" />
+              <point x="-112.08333333333337" y="244.5" />
+            </edge>
+            <edge source="models.Nationality" target="object">
+              <point x="0.0" y="-24.0" />
+              <point x="876.0" y="519.0" />
+              <point x="679.75" y="519.0" />
+              <point x="67.25" y="244.5" />
+            </edge>
+            <edge source="models.User" target="object">
+              <point x="0.0" y="-68.5" />
+              <point x="1096.5" y="509.0" />
+              <point x="724.5833333333333" y="509.0" />
+              <point x="112.08333333333337" y="244.5" />
+            </edge>
+            <edge source="models.Attachment" target="object">
+              <point x="0.0" y="-112.5" />
+              <point x="277.5" y="519.0" />
+              <point x="545.25" y="519.0" />
+              <point x="-67.25" y="244.5" />
+            </edge>
+          </edges>
+          <settings layout="Hierarchic Group" zoom="1.0" x="140.5" y="225.5" />
+          <SelectedNodes />
+          <Categories>
+            <Category>Methods</Category>
+            <Category>Inner Classes</Category>
+            <Category>Fields</Category>
+          </Categories>
+        </state>
+      </provider>
+    </entry>
+    <entry file="uml://Python/#/Users/anzhari/GitRepo/httpapihrmipnet/resources.py">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>Python</ID>
+          <OriginalElement>#/Users/anzhari/GitRepo/httpapihrmipnet/resources.py</OriginalElement>
+          <nodes>
+            <node x="486.25" y="98.0">flask_restful.Resource</node>
+            <node x="633.0" y="306.5">resources.WorkShift</node>
+            <node x="239.0" y="295.5">resources.PersonalDetail</node>
+            <node x="816.0" y="306.5">resources.Login</node>
+            <node x="486.25" y="0.0">flask.views.MethodView</node>
+            <node x="971.0" y="306.5">resources.Nationality</node>
+            <node x="49.0" y="251.0">resources.Attachment</node>
+            <node x="0.0" y="460.0">resources.PersonalDetailAttachment</node>
+            <node x="457.0" y="306.5">resources.Religion</node>
+          </nodes>
+          <notes />
+          <edges>
+            <edge source="flask_restful.Resource" target="flask.views.MethodView">
+              <point x="0.0" y="-46.5" />
+              <point x="0.0" y="24.0" />
+            </edge>
+            <edge source="resources.Nationality" target="flask_restful.Resource">
+              <point x="0.0" y="-24.0" />
+              <point x="1059.5" y="211.0" />
+              <point x="740.1666666666666" y="211.0" />
+              <point x="115.41666666666663" y="46.5" />
+            </edge>
+            <edge source="resources.Religion" target="flask_restful.Resource">
+              <point x="0.0" y="-24.0" />
+              <point x="535.0" y="231.0" />
+              <point x="601.6666666666666" y="231.0" />
+              <point x="-23.08333333333337" y="46.5" />
+            </edge>
+            <edge source="resources.WorkShift" target="flask_restful.Resource">
+              <point x="0.0" y="-24.0" />
+              <point x="714.5" y="231.0" />
+              <point x="647.8333333333333" y="231.0" />
+              <point x="23.083333333333258" y="46.5" />
+            </edge>
+            <edge source="resources.Login" target="flask_restful.Resource">
+              <point x="0.0" y="-24.0" />
+              <point x="883.5" y="221.0" />
+              <point x="694.0" y="221.0" />
+              <point x="69.25" y="46.5" />
+            </edge>
+            <edge source="resources.PersonalDetail" target="flask_restful.Resource">
+              <point x="0.0" y="-35.0" />
+              <point x="338.0" y="221.0" />
+              <point x="555.5" y="221.0" />
+              <point x="-69.25" y="46.5" />
+            </edge>
+            <edge source="resources.Attachment" target="flask_restful.Resource">
+              <point x="0.0" y="-79.5" />
+              <point x="134.0" y="211.0" />
+              <point x="509.33333333333337" y="211.0" />
+              <point x="-115.41666666666663" y="46.5" />
+            </edge>
+            <edge source="resources.PersonalDetailAttachment" target="resources.Attachment">
+              <point x="0.0" y="-35.5" />
+              <point x="0.0" y="79.5" />
+            </edge>
+          </edges>
+          <settings layout="Hierarchic Group" zoom="1.0" x="574.0" y="265.5" />
+          <SelectedNodes>
+            <node>flask_restful.Resource</node>
+          </SelectedNodes>
           <Categories>
             <Category>Methods</Category>
             <Category>Inner Classes</Category>
