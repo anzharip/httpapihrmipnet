@@ -52,7 +52,8 @@ class PersonalDetail:
         cursor = db.sql_cursor(connection, statement)
         result = cursor.fetchone()
         db.close_connection(connection, cursor)
-        if isinstance(result[6], datetime.datetime): 
+        print(result)
+        if isinstance(result[6], datetime.date): 
             license_expiry_date = result[6].isoformat()
         else: 
             license_expiry_date = "" 

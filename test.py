@@ -1,5 +1,5 @@
 import models
 
-job = models.Job("3347")
+personaldetail = models.PersonalDetail("3347")
 
-print (job.get())
+print(personaldetail.get())
